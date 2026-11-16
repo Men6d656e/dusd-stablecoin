@@ -18,8 +18,22 @@ and an explicit list of what is simulated.
 
 Not audited. Not licensed. Not deployed to mainnet.
 
+## Using this repository
+
+You are welcome to **clone, run, study, and fork** this project.
+
+The repository you are reading is the original. Only its owner can push to it.
+If you want to change the code, **fork it** (or clone it) and change your own
+copy — your changes never touch this repository unless the owner merges them.
+
+Pull requests against `main` are not accepted for this project; use a fork for
+your own experiments.
+
 ## License
 
-**All rights reserved.** This is a source-available repository, not open source.
-You may read and evaluate the code; you may not use, modify, distribute, or
-deploy it without written permission. See [LICENSE](LICENSE).
+**MIT.** You may use, copy, modify, and redistribute the code, including in your
+own projects, as long as the copyright notice and license text are kept.
+
+That permission applies to **copies**. It does not give anyone write access to
+this repository — writing to `main` is controlled by GitHub permissions, not by
+the license. See [LICENSE](LICENSE).
