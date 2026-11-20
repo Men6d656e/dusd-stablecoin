@@ -2,11 +2,12 @@
 
 1 dUSD = 1 DEMO-USD · Base Sepolia · **Testnet only · No real money**
 
-dUSD is a USD-pegged ERC-20 collateralized 1:1 by mock USDC (`dUSDC`) held in an
+dUSD is a USD-pegged ERC-20 collateralized 1:1 by mock USDC (`mUSDC`) held in an
 on-chain reserve vault. Foundry contracts, a Next.js app, live proof-of-reserves,
 and an explicit list of what is simulated.
 
-**Status:** scaffolding. Contracts and web app are not built yet.
+**Status:** building. `MockUSDC` collateral is implemented and tested with Foundry
+(9 tests). The reserve vault, dUSD token, and web app are next.
 
 ## What is real and what is simulated
 
