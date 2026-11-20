@@ -74,7 +74,7 @@ contract MockUSDCTest is Test {
         usdc.mint(alice, 100 * ONE_USDC);
 
         vm.prank(alice);
-        usdc.transfer(bob, 40 * ONE_USDC);
+        assertTrue(usdc.transfer(bob, 40 * ONE_USDC));
 
         assertEq(usdc.balanceOf(alice), 60 * ONE_USDC);
         assertEq(usdc.balanceOf(bob), 40 * ONE_USDC);
