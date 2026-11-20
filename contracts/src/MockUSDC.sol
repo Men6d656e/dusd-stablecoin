@@ -17,7 +17,7 @@ contract MockUSDC is ERC20, Ownable {
 
     /// @notice Deploys the mock token and sets the account allowed to mint.
     /// @param initialOwner address that receives minting rights (deployer or treasury).
-    constructor(address initialOwner) ERC20("MOCK USD Coin", "mUSD") Ownable(initialOwner) { }
+    constructor(address initialOwner) ERC20("Mock USD Coin", "mUSDC") Ownable(initialOwner) { }
 
     /// @inheritdoc ERC20
     /// @dev Overrides the 18-decimal default. All maounts are therefore in 1e6 units.
