@@ -24,8 +24,8 @@ contract MockUSDCTest is Test {
     }
 
     function test_Metadata() public view {
-        assertEq(usdc.name(), "MOCK USD Coin");
-        assertEq(usdc.symbol(), "mUSD");
+        assertEq(usdc.name(), "Mock USD Coin");
+        assertEq(usdc.symbol(), "mUSDC");
         assertEq(usdc.decimals(), 6);
         assertEq(usdc.totalSupply(), 0);
     }
@@ -74,7 +74,7 @@ contract MockUSDCTest is Test {
         usdc.mint(alice, 100 * ONE_USDC);
 
         vm.prank(alice);
-        usdc.transfer(bob, 40 * ONE_USDC);
+        assertTrue(usdc.transfer(bob, 40 * ONE_USDC));
 
         assertEq(usdc.balanceOf(alice), 60 * ONE_USDC);
         assertEq(usdc.balanceOf(bob), 40 * ONE_USDC);
