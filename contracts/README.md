@@ -47,6 +47,28 @@ deploy script:
 
 The vault stays inert until the owner calls `setController`.
 
+## Deploy dUSD
+
+    DUSD_ADMIN=<ADMIN_ADDRESS> \
+    forge script script/DeployDUSD.s.sol:DeployDUSD \
+      --rpc-url http://127.0.0.1:8545 --broadcast
+
+`DUSD_ADMIN` is optional; it defaults to the broadcasting sender. Supply starts at
+zero. The admin receives all three roles:
+
+| Role | May do | Held by at deploy |
+|---|---|---|
+| `DEFAULT_ADMIN_ROLE` | grant and revoke every role | `DUSD_ADMIN` |
+| `MINTER_ROLE` | `mint` new supply | `DUSD_ADMIN` (later: the controller) |
+| `PAUSER_ROLE` | `pause` and `unpause` | `DUSD_ADMIN` |
+
+A pause stops transfers, minting **and** burning, so redemption is blocked while
+paused. Pause is an emergency brake, not a routine tool.
+
+There is no supply cap. Supply is elastic and bounded by the reserve invariant
+`dUSD.totalSupply() <= vault.totalAssets()`, which the controller and the invariant
+tests enforce.
+
 ## Layout
 
 - `src/` contracts
