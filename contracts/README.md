@@ -69,6 +69,43 @@ There is no supply cap. Supply is elastic and bounded by the reserve invariant
 `dUSD.totalSupply() <= vault.totalAssets()`, which the controller and the invariant
 tests enforce.
 
+## Deploy CompliancePolicy
+
+    COMPLIANCE_ADMIN=<ADMIN_ADDRESS> \
+    forge script script/DeployCompliancePolicy.s.sol:DeployCompliancePolicy \
+      --rpc-url http://127.0.0.1:8545 --broadcast
+
+`COMPLIANCE_ADMIN` is optional; it defaults to the broadcasting sender. The policy
+deploys open: allowlist mode off, jurisdiction checking off, so every address except
+the zero address is allowed until an operator decides otherwise.
+
+| Setting | Default | Effect when on |
+|---|---|---|
+| `allowlistEnabled` | `false` | only allowlisted addresses pass `isAllowed` |
+| `jurisdictionCheckEnabled` | `false` | only allowed ISO 3166-1 numeric codes pass |
+
+`COMPLIANCE_ROLE` changes every setting; `DEFAULT_ADMIN_ROLE` grants it. A block
+outranks the allowlist and every jurisdiction allowance, so a blocked address is
+denied even if it is also listed. There is no pause on the policy: pausing a
+compliance gate would be a bypass, and the emergency brake lives in the token and the
+controller.
+
+Jurisdiction codes are ISO 3166-1 numeric: `840` United States, `826` United Kingdom,
+`050` Bangladesh, `356` India. Zero means "not recorded" and can never be added to the
+allowed table.
+
+### Where compliance is enforced
+
+| Path | Enforced |
+|---|---|
+| Mint dUSD | controller checks `isAllowed` (module 5) |
+| Redeem dUSD | controller checks `isAllowed` (module 5) |
+| Transfer dUSD | **not yet** — the token has no hook; tracked as a separate token change |
+| Policy changes | `COMPLIANCE_ROLE` on this contract |
+
+An allowlist is not identity verification, and this contract is not a sanctions
+screening product. It stores a decision and its audit trail.
+
 ## Layout
 
 - `src/` contracts
