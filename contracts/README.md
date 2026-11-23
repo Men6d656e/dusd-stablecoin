@@ -50,11 +50,15 @@ The vault stays inert until the owner calls `setController`.
 ## Deploy dUSD
 
     DUSD_ADMIN=<ADMIN_ADDRESS> \
+    COMPLIANCE_ADDRESS=<COMPLIANCE_ADDRESS> \
     forge script script/DeployDUSD.s.sol:DeployDUSD \
       --rpc-url http://127.0.0.1:8545 --broadcast
 
-`DUSD_ADMIN` is optional; it defaults to the broadcasting sender. Supply starts at
+`DUSD_ADMIN` is optional; it defaults to the broadcasting sender.
+`COMPLIANCE_ADDRESS` is required: the transfer hook needs a policy at deploy time,
+and the token rejects a zero policy. Deploy the policy first. Supply starts at
 zero. The admin receives all three roles:
+
 
 | Role | May do | Held by at deploy |
 |---|---|---|
@@ -68,6 +72,24 @@ paused. Pause is an emergency brake, not a routine tool.
 There is no supply cap. Supply is elastic and bounded by the reserve invariant
 `dUSD.totalSupply() <= vault.totalAssets()`, which the controller and the invariant
 tests enforce.
+
+### Transfer hook
+
+Every dUSD transfer checks the policy twice: sender and recipient must both pass
+`isAllowed`. A blocked address cannot send tokens it already holds, and nobody can
+send tokens to a blocked address. The revert is `TransferNotCompliant(from, to)`,
+which names both addresses.
+
+Mint and burn skip the hook because their entry points are already gated: the
+controller checks the account before minting or redeeming, and the zero address can
+never pass a policy. A blocked holder may still burn its own tokens, which only
+reduces supply.
+
+The compliance check runs before the pause check, so a blocked transfer reverts with
+`TransferNotCompliant` even while the token is paused.
+
+The policy is immutable. Swapping it means deploying a new token and rewiring the
+controller and vault; on this testnet that is a migration, not an upgrade.
 
 ## Deploy CompliancePolicy
 
@@ -100,7 +122,7 @@ allowed table.
 |---|---|
 | Mint dUSD | controller checks `isAllowed` (module 5) |
 | Redeem dUSD | controller checks `isAllowed` (module 5) |
-| Transfer dUSD | **not yet** — the token has no hook; tracked as a separate token change |
+| Transfer dUSD | token checks `isAllowed` on sender and recipient |
 | Policy changes | `COMPLIANCE_ROLE` on this contract |
 
 An allowlist is not identity verification, and this contract is not a sanctions
@@ -137,7 +159,7 @@ mint or redeem, even if it is allowlisted.
 |---|---|
 | Mint dUSD | controller checks `isAllowed` |
 | Redeem dUSD | controller checks `isAllowed` |
-| Transfer dUSD | **not yet** — the token has no hook; tracked as a separate token change |
+| Transfer dUSD | token checks `isAllowed` on sender and recipient |
 | Policy changes | `COMPLIANCE_ROLE` on the policy contract |
 
 ### Approval model
@@ -191,7 +213,7 @@ mint, so a blocked address cannot fund itself even if it never claimed before.
 | Claim demo mUSDC | faucet checks `isAllowed` |
 | Mint dUSD | controller checks `isAllowed` |
 | Redeem dUSD | controller checks `isAllowed` |
-| Transfer dUSD | **not yet** — the token has no hook; separate token change |
+| Transfer dUSD | token checks `isAllowed` on sender and recipient |
 | Policy changes | `COMPLIANCE_ROLE` on the policy contract |
 
 ## Deploy FixedPriceSource

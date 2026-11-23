@@ -24,9 +24,9 @@ import { ICompliance } from "./interfaces/ICompliance.sol";
 ///      personal data.
 ///
 ///      Enforcement lives in the callers. The MintRedeemController checks
-///      {isAllowed} on mint and redeem; the token itself has no hook in this
-///      version, so plain transfers are not filtered yet. That gap is deliberate
-///      and documented in the module README.
+///      {isAllowed} on mint and redeem, and the dUSD token checks it on both sides
+///      of every transfer, so a block applies to new business and to movement of
+///      existing balances alike.
 contract CompliancePolicy is ICompliance, AccessControl {
     /// @notice Role allowed to change every policy setting.
     /// @dev Held by the compliance operator, never by the controller. The controller
