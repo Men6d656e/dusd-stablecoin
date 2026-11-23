@@ -3,15 +3,21 @@ pragma solidity 0.8.28;
 
 import { Script } from "forge-std/Script.sol";
 import { console2 } from "forge-std/console2.sol";
+import { ICompliance } from "../src/interfaces/ICompliance.sol";
 import { dUSD } from "../src/dUSD.sol";
 
 /// @title DeployDUSD
 /// @author Men6d656e
 /// @notice Deploys the 18-decimal dUSD token and grants every role to one admin.
-/// @dev `DUSD_ADMIN` is optional and defaults to the broadcasting sender. Use a
-///      Foundry keystore, never a private key on the command line:
+/// @dev `DUSD_ADMIN` is optional and defaults to the broadcasting sender.
+///      `COMPLIANCE_ADDRESS` is required: the transfer hook needs a policy at
+///      deploy time, and a zero policy is rejected by the token constructor.
+///      Deploy the CompliancePolicy first and pass its address here.
 ///
-///      DUSD_ADMIN=0x... forge script script/DeployDUSD.s.sol:DeployDUSD \
+///      Use a Foundry keystore, never a private key on the command line:
+///
+///      DUSD_ADMIN=0x... COMPLIANCE_ADDRESS=0x... \
+///        forge script script/DeployDUSD.s.sol:DeployDUSD \
 ///        --rpc-url "$BASE_SEPOLIA_RPC_URL" \
 ///        --account deployer --sender "$DEPLOYER_ADDRESS" \
 ///        --broadcast --verify --slow
@@ -25,13 +31,15 @@ contract DeployDUSD is Script {
     function run() external returns (dUSD token) {
         address deployer = msg.sender;
         address admin = vm.envOr("DUSD_ADMIN", deployer);
+        ICompliance compliance = ICompliance(vm.envAddress("COMPLIANCE_ADDRESS"));
 
         vm.startBroadcast();
-        token = new dUSD(admin);
+        token = new dUSD(admin, compliance);
         vm.stopBroadcast();
 
         console2.log("dUSD deployed at:", address(token));
         console2.log("Admin (admin + minter + pauser):", admin);
+        console2.log("Compliance policy:", address(compliance));
         console2.log("Name:", token.name());
         console2.log("Symbol:", token.symbol());
         console2.log("Decimals:", token.decimals());

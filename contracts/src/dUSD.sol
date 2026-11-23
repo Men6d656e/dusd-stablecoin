@@ -5,6 +5,7 @@ import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { ERC20Burnable } from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import { ERC20Pausable } from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+import { ICompliance } from "./interfaces/ICompliance.sol";
 
 /// @title dUSD
 /// @author Men6d656e
@@ -28,6 +29,13 @@ import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol"
 ///      pauses transfers, minting and burning together, so a pause also blocks
 ///      redemption. That is deliberate: pause is an emergency brake, not a routine
 ///      tool, and the README states the consequence.
+///
+///      Every transfer is filtered by {COMPLIANCE}: both the sender and the
+///      recipient must pass {ICompliance.isAllowed}. Mint and burn skip the check
+///      because their entry points are already gated (the controller checks the
+///      account before minting or burning) and because the zero address can never
+///      pass a policy. The policy is immutable, so swapping it means redeploying
+///      the token, which is rare and visible.
 contract dUSD is ERC20, ERC20Burnable, ERC20Pausable, AccessControl {
     /// @notice Role allowed to mint new supply. Granted to the deployer at first,
     ///         then to the MintRedeemController.
@@ -36,19 +44,34 @@ contract dUSD is ERC20, ERC20Burnable, ERC20Pausable, AccessControl {
     /// @notice Role allowed to pause and unpause all token movement.
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
-    /// @notice Thrown when the admin address passed to the constructor is zero.
+    /// @notice The policy every transfer must pass, both sender and recipient.
+    ICompliance public immutable COMPLIANCE;
+
+    /// @notice Thrown when the admin or policy address passed to the constructor is zero.
     error ZeroAddress();
 
     /// @notice Thrown when a mint of zero tokens is attempted.
     error ZeroAmount();
 
+    /// @notice Thrown when a transfer involves an address the policy denies.
+    /// @param from Sender of the blocked transfer.
+    /// @param to Recipient of the blocked transfer.
+    error TransferNotCompliant(address from, address to);
+
     /// @notice Deploys the token and grants every role to `admin`.
     /// @dev The admin receives `DEFAULT_ADMIN_ROLE`, `MINTER_ROLE` and `PAUSER_ROLE`
     ///      so the demo can run from one key. Production should split these across a
     ///      multisig (admin), the controller (minter) and an operator (pauser).
+    ///
+    ///      A zero policy is rejected on purpose. A token deployed with no policy
+    ///      would silently allow every transfer, which is the exact gap this hook
+    ///      closes, and the failure would be invisible until someone abused it.
     /// @param admin Account that administers roles and may mint and pause at first.
-    constructor(address admin) ERC20("dUSD Stablecoin", "dUSD") {
-        if (admin == address(0)) revert ZeroAddress();
+    /// @param compliance Policy consulted before every transfer; must not be zero.
+    constructor(address admin, ICompliance compliance) ERC20("dUSD Stablecoin", "dUSD") {
+        if (admin == address(0) || address(compliance) == address(0)) revert ZeroAddress();
+
+        COMPLIANCE = compliance;
 
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(MINTER_ROLE, admin);
@@ -81,12 +104,24 @@ contract dUSD is ERC20, ERC20Burnable, ERC20Pausable, AccessControl {
     }
 
     /// @dev Required because both ERC20 and ERC20Pausable define `_update`. The
-    ///      `super` call walks the inheritance chain, so the pause check runs before
-    ///      the balance write. Without this override the contract does not compile.
+    ///      compliance gate runs before `super`, so a blocked transfer reverts with
+    ///      {TransferNotCompliant} even while the token is paused; the pause check is
+    ///      the next line of defence, not the first.
+    ///
+    ///      `from == address(0)` is mint and `to == address(0)` is burn. Both are
+    ///      already gated at their entry points, so the hook skips them; that is
+    ///      also what lets the controller mint to a user and burn from a user
+    ///      without asking the policy about the zero address.
     function _update(address from, address to, uint256 value)
         internal
         override(ERC20, ERC20Pausable)
     {
+        if (from != address(0) && to != address(0)) {
+            if (!COMPLIANCE.isAllowed(from) || !COMPLIANCE.isAllowed(to)) {
+                revert TransferNotCompliant(from, to);
+            }
+        }
+
         super._update(from, to, value);
     }
 }
