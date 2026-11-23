@@ -106,6 +106,47 @@ allowed table.
 An allowlist is not identity verification, and this contract is not a sanctions
 screening product. It stores a decision and its audit trail.
 
+## Deploy MintRedeemController
+
+    DUSD_ADDRESS=<DUSD_ADDRESS> \
+    VAULT_ADDRESS=<VAULT_ADDRESS> \
+    COMPLIANCE_ADDRESS=<COMPLIANCE_ADDRESS> \
+    forge script script/DeployMintRedeemController.s.sol:DeployMintRedeemController \
+      --rpc-url http://127.0.0.1:8545 --broadcast
+
+All three env vars are required. The controller deploys with immutable
+dependencies: compliance policy, dUSD token, ReserveVault.
+
+After deploy, two wiring transactions are still required:
+
+1. `dUSD` admin grants `MINTER_ROLE` to the controller:
+   `cast send <DUSD_ADDRESS> "grantRole(bytes32,address)" $(cast keccak "MINTER_ROLE") <CONTROLLER_ADDRESS> ...`
+2. Vault owner sets the controller:
+   `cast send <VAULT_ADDRESS> "setController(address)" <CONTROLLER_ADDRESS> ...`
+
+The controller holds no funds and has no admin role. Scaling is fixed at `1e12`:
+1 mUSDC (1e6) mints 1 dUSD (1e18). A redeem amount that is not a multiple of
+`1e12` reverts with `NotMultipleOfScale`, so no silent dust is created.
+
+Compliance is checked before every mint and redeem. A blocked address cannot
+mint or redeem, even if it is allowlisted.
+
+### Where compliance is enforced (after module 5)
+
+| Path | Enforced |
+|---|---|
+| Mint dUSD | controller checks `isAllowed` |
+| Redeem dUSD | controller checks `isAllowed` |
+| Transfer dUSD | **not yet** — the token has no hook; tracked as a separate token change |
+| Policy changes | `COMPLIANCE_ROLE` on the policy contract |
+
+### Approval model
+
+| Step | User approves | Why |
+|---|---|---|
+| Mint | the **vault** for mUSDC | `depositFor` pulls directly; the controller never holds collateral |
+| Redeem | the **controller** for dUSD | `burnFrom` consumes an allowance; the controller only burns consented amounts |
+
 ## Layout
 
 - `src/` contracts
