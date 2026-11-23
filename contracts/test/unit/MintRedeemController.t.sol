@@ -34,7 +34,7 @@ contract MintRedeemControllerTest is Test {
         musdc = new MockUSDC(admin);
         vault = new ReserveVault(musdc, admin);
         policy = new CompliancePolicy(admin);
-        dusd = new dUSD(admin);
+        dusd = new dUSD(admin, policy);
 
         controller = new MintRedeemController(policy, dusd, vault);
 

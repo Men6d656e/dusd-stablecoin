@@ -6,6 +6,7 @@ import { IAccessControl } from "@openzeppelin/contracts/access/IAccessControl.so
 import { Pausable } from "@openzeppelin/contracts/utils/Pausable.sol";
 import { IERC20Errors } from "@openzeppelin/contracts/interfaces/IERC6093.sol";
 import { dUSD } from "../../src/dUSD.sol";
+import { CompliancePolicy } from "../../src/CompliancePolicy.sol";
 
 /// @title dUSDTest
 /// @notice Behavioural spec for the dUSD token: metadata, roles, mint, burn, pause.
@@ -15,6 +16,7 @@ import { dUSD } from "../../src/dUSD.sol";
 ///      the intent so a failing test is diagnosable months later.
 contract dUSDTest is Test {
     dUSD private token;
+    CompliancePolicy private policy;
 
     address private admin;
     address private minter;
@@ -40,7 +42,8 @@ contract dUSDTest is Test {
         alice = makeAddr("alice");
         bob = makeAddr("bob");
 
-        token = new dUSD(admin);
+        policy = new CompliancePolicy(admin);
+        token = new dUSD(admin, policy);
 
         vm.startPrank(admin);
         token.grantRole(token.MINTER_ROLE(), minter);
@@ -83,7 +86,14 @@ contract dUSDTest is Test {
     ///      exercised or transferred, which would brick role administration.
     function test_RevertWhen_AdminIsZero() public {
         vm.expectRevert(dUSD.ZeroAddress.selector);
-        new dUSD(address(0));
+        new dUSD(address(0), policy);
+    }
+
+    /// @dev Proves a zero policy is rejected. A token with no policy would allow
+    ///      every transfer, which is the gap the hook exists to close.
+    function test_RevertWhen_ComplianceIsZero() public {
+        vm.expectRevert(dUSD.ZeroAddress.selector);
+        new dUSD(admin, CompliancePolicy(address(0)));
     }
 
     // ---------------------------------------------------------------------
