@@ -14,6 +14,16 @@ Foundry project for the dUSD fiat-backed stablecoin case study.
     forge fmt --check
     forge lint
 
+## Run the invariant suite
+
+    FOUNDRY_PROFILE=ci forge test --match-path "test/invariant/*"
+
+The suite fuzzes claim, mint, redeem, donate, transfer and time-warp against the
+wired contracts, then checks five properties: supply never exceeds assets, supply
+equals recorded deposits times `1e12`, assets cover deposits, the per-account ledger
+sums to `totalDeposits`, and supply is a whole number of dUSD. The CI profile uses
+`runs = 500, depth = 100`; the default Foundry profile uses its own defaults.
+
 ## Deploy MockUSDC locally
 
     anvil
@@ -253,6 +263,6 @@ nothing to manipulate and nothing to pause.
 
 - `src/` contracts
 - `test/unit/` unit and fuzz tests
-- `test/invariant/` invariants (added with the full system)
+- `test/invariant/` reserve and supply invariants, plus the handler that drives them
 - `script/` deployment scripts
 - `lib/` dependencies (git submodules)
