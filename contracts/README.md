@@ -194,6 +194,39 @@ mint, so a blocked address cannot fund itself even if it never claimed before.
 | Transfer dUSD | **not yet** — the token has no hook; separate token change |
 | Policy changes | `COMPLIANCE_ROLE` on the policy contract |
 
+## Deploy FixedPriceSource
+
+    forge script script/DeployFixedPriceSource.s.sol:DeployFixedPriceSource \
+      --rpc-url http://127.0.0.1:8545 --broadcast
+
+No env vars and no constructor arguments. The source returns `1e18` for every
+call: parity, 18-decimal fixed point.
+
+This is a price **seam**, not a price feed. There is no oracle in v1 and the
+contract does not pretend there is one. Nothing consumes it yet: the controller
+enforces the 1:1 peg with its fixed `1e12` scaling, not with a price lookup.
+
+The interface is one function:
+
+    function price() external view returns (uint256);
+
+Every implementation returns 18-decimal fixed point. `1e18` means parity, `2e18`
+means one collateral unit is worth two dUSD, `5e17` means half. A future oracle
+adapter normalises its feed to 18 decimals inside `price()`, so the call site does
+not change.
+
+### Where price is enforced (after module 7)
+
+| Path | Enforced |
+|---|---|
+| Mint dUSD | fixed `1e12` scaling in the controller; no price call |
+| Redeem dUSD | fixed `1e12` scaling in the controller; no price call |
+| Price lookup | seam exists, no consumer yet |
+| Oracle | none in v1; a real feed is a separate, tested change |
+
+There is no admin, no setter and no storage in `FixedPriceSource`, so there is
+nothing to manipulate and nothing to pause.
+
 ## Layout
 
 - `src/` contracts
