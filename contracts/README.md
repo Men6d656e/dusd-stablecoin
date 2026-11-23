@@ -147,6 +147,53 @@ mint or redeem, even if it is allowlisted.
 | Mint | the **vault** for mUSDC | `depositFor` pulls directly; the controller never holds collateral |
 | Redeem | the **controller** for dUSD | `burnFrom` consumes an allowance; the controller only burns consented amounts |
 
+## Deploy TokenFaucet
+
+    MUSDC_ADDRESS=<MUSDC_ADDRESS> \
+    COMPLIANCE_ADDRESS=<COMPLIANCE_ADDRESS> \
+    FAUCET_AMOUNT=<AMOUNT_PER_CLAIM> \
+    FAUCET_COOLDOWN=<SECONDS> \
+    FAUCET_CAP=<LIFETIME_CAP> \
+    forge script script/DeployTokenFaucet.s.sol:DeployTokenFaucet \
+      --rpc-url http://127.0.0.1:8545 --broadcast
+
+All five env vars are required. Demo values: `FAUCET_AMOUNT=100000000`
+(100 mUSDC), `FAUCET_COOLDOWN=86400` (one day), `FAUCET_CAP=500000000`
+(500 mUSDC).
+
+After deploy, one wiring transaction is required: the current mUSDC owner must
+hand ownership to the faucet, because only the owner may mint:
+
+    cast send <MUSDC_ADDRESS> "transferOwnership(address)" <FAUCET_ADDRESS> ...
+
+Until that transaction lands, every claim reverts with
+`OwnableUnauthorizedAccount`.
+
+The faucet mints mUSDC, never dUSD. It holds no funds and has no admin role and
+no pause: all five settings are immutable, so changing the demo economics means
+redeploying the faucet.
+
+### Faucet rules
+
+| Setting | Meaning |
+|---|---|
+| `AMOUNT` | mUSDC per claim, 6-decimal base units |
+| `COOLDOWN` | minimum seconds between claims by one address |
+| `CAP` | lifetime maximum per address, rounded down to whole claims |
+
+Compliance is checked first on every claim, before the cooldown and before the
+mint, so a blocked address cannot fund itself even if it never claimed before.
+
+### Where compliance is enforced (after module 6)
+
+| Path | Enforced |
+|---|---|
+| Claim demo mUSDC | faucet checks `isAllowed` |
+| Mint dUSD | controller checks `isAllowed` |
+| Redeem dUSD | controller checks `isAllowed` |
+| Transfer dUSD | **not yet** — the token has no hook; separate token change |
+| Policy changes | `COMPLIANCE_ROLE` on the policy contract |
+
 ## Layout
 
 - `src/` contracts
