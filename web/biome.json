@@ -1,0 +1,17 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!src/generated",
+      "!public",
+      "!src/lib/abi",
+      "!src/lib/deployments"
+    ]
+  },
+  "linter": { "enabled": true },
+  "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2 },
+  "css": { "parser": { "tailwindDirectives": true } }
+}
