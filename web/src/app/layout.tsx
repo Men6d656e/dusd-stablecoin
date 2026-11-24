@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { headers } from "next/headers";
+import { cookieToInitialState } from "wagmi";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { TestnetBanner } from "@/components/TestnetBanner";
+import { wagmiConfig } from "@/lib/wagmi/config";
+import { Providers } from "./providers";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,19 +25,24 @@ export const metadata: Metadata = {
     "A fiat-backed stablecoin case study on Base Sepolia. Testnet only, no real money.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const cookie = (await headers()).get("cookie") ?? "";
+  const initialState = cookieToInitialState(wagmiConfig, cookie);
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
-        <TestnetBanner />
-        <SiteHeader />
-        <main className="mx-auto max-w-5xl px-6 py-8">{children}</main>
-        <SiteFooter />
+        <Providers initialState={initialState}>
+          <TestnetBanner />
+          <SiteHeader />
+          <main className="mx-auto max-w-5xl px-6 py-8">{children}</main>
+          <SiteFooter />
+        </Providers>
       </body>
     </html>
   );

@@ -1,13 +1,25 @@
 import Link from "next/link";
+import { AccountChip } from "@/components/AccountChip";
+import { ChainGuard } from "@/components/ChainGuard";
+import { ConnectButton } from "@/components/ConnectButton";
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-neutral-200 px-6 py-4 dark:border-neutral-800">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between">
-        <Link href="/" className="font-semibold tracking-tight">
-          dUSD
-        </Link>
-        <span className="text-sm text-neutral-500">Base Sepolia · testnet</span>
+    <header className="border-b border-neutral-200 dark:border-neutral-800">
+      <ChainGuard />
+      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-6">
+          <Link href="/" className="font-semibold tracking-tight">
+            dUSD
+          </Link>
+          <span className="text-sm text-neutral-500">
+            Base Sepolia · testnet
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <ConnectButton />
+          <AccountChip />
+        </div>
       </nav>
     </header>
   );
