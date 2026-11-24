@@ -14,6 +14,39 @@ Foundry project for the dUSD fiat-backed stablecoin case study.
     forge fmt --check
     forge lint
 
+The CI job runs the same checks against the `ci` profile, which raises the fuzz
+and invariant budgets:
+
+    FOUNDRY_PROFILE=ci forge build --sizes
+    FOUNDRY_PROFILE=ci forge test -vvv
+
+## Deployment order
+
+The contracts have dependencies, so they cannot be deployed in the order the
+sections below appear: those sections follow module history. This table is the
+authoritative order. Every later step consumes an address from an earlier one.
+
+| # | Contract | Constructor needs | Purpose |
+|---|----------|-------------------|---------|
+| 1 | `CompliancePolicy` | admin only | the policy every money path checks |
+| 2 | `MockUSDC` | owner only | the 6-decimal collateral |
+| 3 | `ReserveVault` | `MUSDC_ADDRESS` | custody of the collateral |
+| 4 | `dUSD` | `COMPLIANCE_ADDRESS` | the 18-decimal token |
+| 5 | `MintRedeemController` | `DUSD_ADDRESS`, `VAULT_ADDRESS`, `COMPLIANCE_ADDRESS` | the mint/redeem path |
+| 6 | `TokenFaucet` | `MUSDC_ADDRESS`, `COMPLIANCE_ADDRESS`, faucet economics | the demo funding path |
+| 7 | `FixedPriceSource` | none | the unused price seam |
+
+Three wiring transactions complete the system after the deployments:
+
+1. `dUSD` admin grants `MINTER_ROLE` to the controller.
+2. Vault owner calls `setController(controller)`.
+3. `mUSDC` owner calls `transferOwnership(faucet)`, because only the owner mints.
+
+Sections below document each contract and its individual script. A single
+`DeployAll` script that performs this order and all three wiring calls is the
+phase 2 deliverable; until it exists, follow the table above, not the section
+order.
+
 ## Run the invariant suite
 
     FOUNDRY_PROFILE=ci forge test --match-path "test/invariant/*"
@@ -40,6 +73,10 @@ Use a Foundry keystore, never a private key on the command line:
       --account deployer --sender "$DEPLOYER_ADDRESS" \
       --broadcast --verify --slow
 
+`BASE_SEPOLIA_RPC_URL` is your Base Sepolia RPC endpoint and `DEPLOYER_ADDRESS`
+is the address printed by `cast wallet list`; export both before running the
+command. `BASESCAN_API_KEY` supplies the verification key from `foundry.toml`.
+
 Record the printed address. Seed liquidity is a deliberate mint, not part of the
 deploy script:
 
@@ -51,9 +88,19 @@ deploy script:
 
 ## Deploy ReserveVault
 
+Local Anvil:
+
     MUSDC_ADDRESS=<MUSDC_ADDRESS> \
     forge script script/DeployReserveVault.s.sol:DeployReserveVault \
       --rpc-url http://127.0.0.1:8545 --broadcast
+
+Base Sepolia, with the same keystore convention as every other script:
+
+    MUSDC_ADDRESS=<MUSDC_ADDRESS> \
+    forge script script/DeployReserveVault.s.sol:DeployReserveVault \
+      --rpc-url "$BASE_SEPOLIA_RPC_URL" \
+      --account deployer --sender "$DEPLOYER_ADDRESS" \
+      --broadcast --verify --slow
 
 The vault stays inert until the owner calls `setController`.
 

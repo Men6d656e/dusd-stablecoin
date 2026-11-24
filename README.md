@@ -3,17 +3,72 @@
 1 dUSD = 1 DEMO-USD · Base Sepolia · **Testnet only · No real money**
 
 dUSD is a USD-pegged ERC-20 collateralized 1:1 by mock USDC (`mUSDC`) held in an
-on-chain reserve vault. Foundry contracts, a Next.js app, live proof-of-reserves,
-and an explicit list of what is simulated.
+on-chain reserve vault. Foundry contracts today; a Next.js app and live
+proof-of-reserves next.
 
-**Status:** building. `MockUSDC` collateral is implemented and tested with Foundry
-(9 tests). The reserve vault, dUSD token, and web app are next.
+**Status:** contracts complete. Seven contracts, 149 Foundry tests (unit, fuzz
+and invariant), a formatting and lint gate, and green CI. Deployment to Base
+Sepolia and the web app are the next phases. **There are no deployed addresses
+yet** — when they exist they land in `deployments/84532.json` and in the address
+table below. Until then, do not send funds to any address claiming to be this
+project.
+
+## What is built
+
+| Contract | Role | Tests |
+|----------|------|-------|
+| `MockUSDC` | 6-decimal demo collateral, owner-mintable | unit + fuzz |
+| `CompliancePolicy` | allowlist, blocklist, jurisdiction flags | unit + fuzz |
+| `ReserveVault` | collateral custody, per-account ledger, controller hook | unit + fuzz |
+| `dUSD` | 18-decimal ERC-20, pausable, transfer compliance hook | unit + fuzz |
+| `MintRedeemController` | 1:1 mint/redeem with fixed `1e12` scaling | unit + fuzz |
+| `TokenFaucet` | demo mUSDC with cooldown and lifetime cap | unit + fuzz |
+| `FixedPriceSource` | price seam, no consumer in v1 | unit |
+
+The whole system is exercised by 149 tests, including a reserve invariant suite
+(`totalSupply <= totalAssets`, ledger reconciliation, whole-dUSD supply). Contract
+details and deployment commands live in [contracts/README.md](contracts/README.md).
+
+## Repository layout
+
+```text
+contracts/     Foundry project: src/, test/, script/, lib/
+.github/       CI: forge fmt, forge build --sizes, forge test
+LICENSE
+README.md
+```
+
+`deployments/`, `scripts/`, `Makefile` and `web/` arrive with the deployment and
+web phases.
+
+## Quick start
+
+```bash
+cd contracts
+forge test -vvv
+forge fmt --check
+forge lint
+```
+
+The CI profile, which the GitHub Actions job runs:
+
+```bash
+cd contracts
+FOUNDRY_PROFILE=ci forge test
+```
+
+The invariant suite on its own:
+
+```bash
+cd contracts
+FOUNDRY_PROFILE=ci forge test --match-path "test/invariant/*"
+```
 
 ## What is real and what is simulated
 
 | Layer | Real? |
 |-------|-------|
-| Contracts, transactions, token balances | Real on a public testnet |
+| Contracts, transactions, token balances | Real once deployed to a public testnet |
 | Reserve vault and reserve ratio | Real on-chain, mock asset |
 | Fiat, bank, KYC, license, audit | Simulated or absent |
 
