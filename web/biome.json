@@ -8,7 +8,10 @@
       "!src/generated",
       "!public",
       "!src/lib/abi",
-      "!src/lib/deployments"
+      "!src/lib/deployments",
+      "!test-results",
+      "!playwright-report",
+      "!blob-report"
     ]
   },
   "linter": { "enabled": true },
