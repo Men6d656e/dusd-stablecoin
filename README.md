@@ -6,12 +6,11 @@ dUSD is a USD-pegged ERC-20 collateralized 1:1 by mock USDC (`mUSDC`) held in an
 on-chain reserve vault. Foundry contracts today; a Next.js app and live
 proof-of-reserves next.
 
-**Status:** contracts complete. Seven contracts, 149 Foundry tests (unit, fuzz
-and invariant), a formatting and lint gate, and green CI. Deployment to Base
-Sepolia and the web app are the next phases. **There are no deployed addresses
-yet** — when they exist they land in `deployments/84532.json` and in the address
-table below. Until then, do not send funds to any address claiming to be this
-project.
+**Status:** contracts complete and deployed to Base Sepolia. Seven contracts,
+149 Foundry tests (unit, fuzz and invariant), a formatting and lint gate, green
+CI, and verified source on Basescan. Addresses are in `deployments/84532.json`
+and in the table below. Testnet only — no real money; do not send funds to any
+address claiming to be this project.
 
 ## Base Sepolia deployment (2026-11-24)
 
@@ -50,8 +49,8 @@ LICENSE
 README.md
 ```
 
-`deployments/`, `scripts/`, `Makefile` and `web/` arrive with the deployment and
-web phases.
+`deployments/`, `scripts/` and `Makefile` are in place; `web/` arrives with the
+web phase.
 
 ## Quick start
 
