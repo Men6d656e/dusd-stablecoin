@@ -21,7 +21,9 @@ export const metadata: Metadata = {
     "A fiat-backed stablecoin case study on Base Sepolia. Testnet only, no real money.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
