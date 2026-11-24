@@ -13,6 +13,18 @@ yet** — when they exist they land in `deployments/84532.json` and in the addre
 table below. Until then, do not send funds to any address claiming to be this
 project.
 
+## Base Sepolia deployment (2026-11-24)
+
+| Contract | Address | Explorer |
+|---|---|---|
+| MockUSDC | 0xd5687e74B3c26aA25c2a5985E2Ff974A99Fd563C | https://sepolia.basescan.org/address/0xd5687e74B3c26aA25c2a5985E2Ff974A99Fd563C#code |
+| CompliancePolicy | 0x61994d53cadf2cD8786E4ea84Dc497d1ccC755F5 | https://sepolia.basescan.org/address/0x61994d53cadf2cD8786E4ea84Dc497d1ccC755F5#code |
+| ReserveVault | 0x0d065884ce8D542510bF6b99B6Da8055e39f3dF5 | https://sepolia.basescan.org/address/0x0d065884ce8D542510bF6b99B6Da8055e39f3dF5#code |
+| dUSD | 0x530d583c44E44cc07154741f4D4B4cc9500bfa43 | https://sepolia.basescan.org/address/0x530d583c44E44cc07154741f4D4B4cc9500bfa43#code |
+| MintRedeemController | 0xDc042BA286F204231A7aa7bc1eC1208aB03D65C2 | https://sepolia.basescan.org/address/0xDc042BA286F204231A7aa7bc1eC1208aB03D65C2#code |
+| TokenFaucet | 0xa10D4D20d9B856f2B8e4152C3e0d1802ADdc06cD | https://sepolia.basescan.org/address/0xa10D4D20d9B856f2B8e4152C3e0d1802ADdc06cD#code |
+| FixedPriceSource | 0x4B7C3301b3AeCeE64f8d0622a2fE0813404f3346 | https://sepolia.basescan.org/address/0x4B7C3301b3AeCeE64f8d0622a2fE0813404f3346#code |
+
 ## What is built
 
 | Contract | Role | Tests |
