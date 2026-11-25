@@ -12,6 +12,18 @@ export function SiteHeader() {
           <Link href="/" className="font-semibold tracking-tight">
             dUSD
           </Link>
+          <Link
+            href="/dashboard"
+            className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/faucet"
+            className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+          >
+            Faucet
+          </Link>
           <span className="text-sm text-neutral-500">
             Base Sepolia · testnet
           </span>
