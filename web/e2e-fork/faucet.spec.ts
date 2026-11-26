@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import deployment from "../src/lib/deployments/84532.json";
+import deployment from "../src/lib/deployments/base-sepolia/deployment.json";
 import { installInjectedProvider } from "./injected-provider";
 
 const FORK_RPC = process.env.FORK_RPC ?? "http://127.0.0.1:8545";
@@ -66,7 +66,7 @@ test("claim 100 mUSDC from the UI, then show the on-chain cooldown after reload"
 
   const confirmed = page.locator('[data-tx-state="confirmed"]');
   await expect(confirmed).toBeVisible({ timeout: 60_000 });
-  await expect(page.getByText("View on Basescan")).toBeVisible();
+  await expect(page.getByText("View on explorer")).toBeVisible();
 
   expect(await musdcBalance()).toBe(balanceBefore + BigInt(100_000_000));
 

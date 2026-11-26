@@ -9,13 +9,11 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { baseSepolia } from "wagmi/chains";
 import { type TxState, TxStatus } from "@/components/TxStatus";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   tokenFaucetAbi,
-  tokenFaucetAddress,
   useReadMockUsdcBalanceOf,
   useReadTokenFaucetAmount,
   useReadTokenFaucetCanClaim,
@@ -24,12 +22,14 @@ import {
   useReadTokenFaucetCooldown,
   useReadTokenFaucetNextClaimAt,
 } from "@/generated/contracts";
+import { contracts } from "@/lib/contracts";
 import {
   countdownSeconds,
   faucetErrorMessage,
   formatCountdown,
 } from "@/lib/faucet";
 import { formatCollateral } from "@/lib/format";
+import { activeChain, activeNetworkConfig } from "@/lib/networks";
 
 /** Wall clock in seconds, null until mounted so SSR and hydration agree. */
 function useNowSeconds(): number | null {
@@ -46,7 +46,7 @@ function useNowSeconds(): number | null {
 
 export function FaucetPanel() {
   const { address, isConnected, chainId } = useConnection();
-  const onRightChain = chainId === baseSepolia.id;
+  const onRightChain = chainId === activeChain.id;
   const now = useNowSeconds();
   const { data: blockNumber } = useBlockNumber({ watch: true });
 
@@ -54,25 +54,31 @@ export function FaucetPanel() {
     "0x0000000000000000000000000000000000000000") as Address;
   const ready = Boolean(address) && onRightChain;
 
-  const amount = useReadTokenFaucetAmount();
-  const cooldown = useReadTokenFaucetCooldown();
-  const cap = useReadTokenFaucetCap();
+  const amount = useReadTokenFaucetAmount({ address: contracts.TokenFaucet });
+  const cooldown = useReadTokenFaucetCooldown({
+    address: contracts.TokenFaucet,
+  });
+  const cap = useReadTokenFaucetCap({ address: contracts.TokenFaucet });
   const claimed = useReadTokenFaucetClaimed({
+    address: contracts.TokenFaucet,
     args: [account],
     blockNumber,
     query: { enabled: ready },
   });
   const canClaim = useReadTokenFaucetCanClaim({
+    address: contracts.TokenFaucet,
     args: [account],
     blockNumber,
     query: { enabled: ready },
   });
   const nextClaimAt = useReadTokenFaucetNextClaimAt({
+    address: contracts.TokenFaucet,
     args: [account],
     blockNumber,
     query: { enabled: ready },
   });
   const balance = useReadMockUsdcBalanceOf({
+    address: contracts.MockUSDC,
     args: [account],
     blockNumber,
     query: { enabled: ready },
@@ -80,7 +86,7 @@ export function FaucetPanel() {
 
   const simulation = useSimulateContract({
     abi: tokenFaucetAbi,
-    address: tokenFaucetAddress,
+    address: contracts.TokenFaucet,
     functionName: "claim",
     query: { enabled: ready && canClaim.data === true },
   });
@@ -120,7 +126,9 @@ export function FaucetPanel() {
 
   if (!onRightChain) {
     return (
-      <p className="text-red-600">Switch to Base Sepolia to use the faucet.</p>
+      <p className="text-red-600">
+        Switch to {activeNetworkConfig.label} to use the faucet.
+      </p>
     );
   }
 

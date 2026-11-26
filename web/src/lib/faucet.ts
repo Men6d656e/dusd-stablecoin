@@ -1,7 +1,5 @@
 import { BaseError, ContractFunctionRevertedError } from "viem";
 
-export const BASESCAN_BASE_URL = "https://sepolia.basescan.org";
-
 export type FaucetErrorName =
   | "NotCompliant"
   | "CooldownActive"
@@ -84,8 +82,4 @@ export function faucetErrorMessage(error: unknown): string {
     default:
       return error instanceof Error ? error.message : "The claim failed.";
   }
-}
-
-export function basescanTxUrl(hash: `0x${string}`): string {
-  return `${BASESCAN_BASE_URL}/tx/${hash}`;
 }

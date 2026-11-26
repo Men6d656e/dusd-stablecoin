@@ -1,6 +1,6 @@
 "use client";
 
-import { basescanTxUrl } from "@/lib/faucet";
+import { activeNetwork, explorerTxUrl } from "@/lib/networks";
 
 export type TxState = "idle" | "wallet" | "pending" | "confirmed" | "failed";
 
@@ -23,6 +23,8 @@ export function TxStatus({
 }) {
   if (state === "idle") return null;
 
+  const href = hash ? explorerTxUrl(activeNetwork, hash) : null;
+
   const tone =
     state === "failed"
       ? "border-red-300 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
@@ -38,14 +40,14 @@ export function TxStatus({
       className={`space-y-1 rounded-md border p-3 text-sm ${tone}`}
     >
       <p>{state === "failed" && error ? error : LABELS[state]}</p>
-      {hash ? (
+      {href ? (
         <a
-          href={basescanTxUrl(hash)}
+          href={href}
           target="_blank"
           rel="noreferrer"
           className="inline-block font-mono text-xs underline underline-offset-2"
         >
-          View on Basescan ↗
+          View on explorer ↗
         </a>
       ) : null}
     </div>

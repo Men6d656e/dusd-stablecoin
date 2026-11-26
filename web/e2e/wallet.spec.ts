@@ -4,9 +4,9 @@ test("connect with the mock connector, survive a reload, then disconnect", async
   page,
 }) => {
   await page.goto("/");
-  await expect(
-    page.getByText("Base Sepolia · Testnet only · No real money"),
-  ).toBeVisible();
+  await expect(page.getByTestId("network-banner")).toContainText(
+    /No real money/,
+  );
 
   await page.getByRole("button", { name: "Connect wallet" }).click();
   await page.getByRole("button", { name: /mock/i }).click();

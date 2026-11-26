@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { activeNetwork, activeNetworkConfig, tierLabel } from "@/lib/networks";
 
 export function ConnectButton() {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,8 @@ export function ConnectButton() {
         <DialogHeader>
           <DialogTitle>Connect a wallet</DialogTitle>
           <DialogDescription>
-            Desktop extension wallets only. Base Sepolia, testnet funds.
+            Desktop extension wallets only. {activeNetworkConfig.label},{" "}
+            {tierLabel(activeNetwork)} funds.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-2">

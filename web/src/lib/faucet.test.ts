@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  basescanTxUrl,
   countdownSeconds,
   faucetErrorMessage,
   faucetErrorName,
@@ -73,13 +72,5 @@ describe("faucetErrorMessage", () => {
 
   it("keeps the original message for unknown errors", () => {
     expect(faucetErrorMessage(new Error("RPC exploded"))).toBe("RPC exploded");
-  });
-});
-
-describe("basescanTxUrl", () => {
-  it("links the transaction on Base Sepolia", () => {
-    expect(basescanTxUrl(`0x${"a".repeat(64)}`)).toBe(
-      `https://sepolia.basescan.org/tx/0x${"a".repeat(64)}`,
-    );
   });
 });

@@ -1,41 +1,59 @@
 #!/usr/bin/env node
 // Ask Etherscan V2 whether each deployed contract has verified source code.
-// One key covers every chain; Base Sepolia uses chainid 84532.
+// One key covers every chain. Local networks have no explorer, so they skip
+// cleanly instead of failing a deploy.
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import path from "node:path";
-
-const repoRoot = path.resolve(import.meta.dirname, "..");
+import { readJson } from "./lib/abi.mjs";
+import {
+  deploymentPath,
+  parseFlags,
+  repoRoot,
+  resolveNetwork,
+} from "./lib/networks.mjs";
 
 function fail(message) {
   console.error(`check-verification: ${message}`);
   process.exit(1);
 }
 
-function argValue(flag, fallback) {
-  const index = process.argv.indexOf(flag);
-  if (index === -1) return fallback;
-  const value = process.argv[index + 1];
-  if (!value || value.startsWith("--")) fail(`${flag} needs a value`);
-  return value;
+const flags = parseFlags();
+
+let target;
+try {
+  target = resolveNetwork({
+    network: flags.network ?? process.env.NETWORK,
+    chainId: flags["chain-id"] ?? process.env.CHAIN_ID,
+  });
+} catch (error) {
+  fail(error.message);
 }
 
-const chainId = String(argValue("--chain-id", process.env.CHAIN_ID ?? "84532"));
+const { slug, chainId, config } = target;
+
+if (config.tier === "local" || !config.explorerTxUrl) {
+  console.log(`check-verification: ${slug} has no block explorer - nothing to verify`);
+  process.exit(0);
+}
+
 const apiKey = process.env.BASESCAN_API_KEY;
-if (!apiKey) fail("BASESCAN_API_KEY is empty; put an Etherscan V2 key in contracts/.env");
-
-const deploymentPath = path.join(repoRoot, "deployments", `${chainId}.json`);
-if (!existsSync(deploymentPath)) {
-  fail(`no deployment at deployments/${chainId}.json`);
+if (!apiKey) {
+  fail("BASESCAN_API_KEY is empty; put an Etherscan V2 key in contracts/.env");
 }
-const deployment = JSON.parse(readFileSync(deploymentPath, "utf8"));
+
+const manifestPath = deploymentPath(slug);
+if (!existsSync(manifestPath)) {
+  fail(`no manifest at ${path.relative(repoRoot, manifestPath)}`);
+}
+const deployment = readJson(manifestPath);
 
 const endpoint = "https://api.etherscan.io/v2/api";
 let unverified = 0;
 
 for (const [name, address] of Object.entries(deployment.contracts)) {
   const url = new URL(endpoint);
-  url.searchParams.set("chainid", chainId);
+  url.searchParams.set("chainid", String(chainId));
   url.searchParams.set("module", "contract");
   url.searchParams.set("action", "getsourcecode");
   url.searchParams.set("address", address);
@@ -63,7 +81,7 @@ for (const [name, address] of Object.entries(deployment.contracts)) {
 
 if (unverified > 0) {
   console.error(
-    `\n${unverified} contract(s) not verified. Re-run: make deploy-sepolia (forge retries --verify), ` +
+    `\n${unverified} contract(s) not verified. Re-run: make deploy NETWORK=${slug} CONFIRM=1, ` +
       `or verify manually with forge verify-contract --watch.`,
   );
   process.exit(1);

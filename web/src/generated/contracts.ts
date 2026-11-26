@@ -373,14 +373,6 @@ export const compliancePolicyAbi = [
   { type: 'error', inputs: [], name: 'ZeroAddress' },
 ] as const
 
-export const compliancePolicyAddress =
-  '0x61994d53cadf2cD8786E4ea84Dc497d1ccC755F5' as const
-
-export const compliancePolicyConfig = {
-  address: compliancePolicyAddress,
-  abi: compliancePolicyAbi,
-} as const
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // MintRedeemController
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -518,14 +510,6 @@ export const mintRedeemControllerAbi = [
   { type: 'error', inputs: [], name: 'ZeroAddress' },
   { type: 'error', inputs: [], name: 'ZeroAmount' },
 ] as const
-
-export const mintRedeemControllerAddress =
-  '0xDc042BA286F204231A7aa7bc1eC1208aB03D65C2' as const
-
-export const mintRedeemControllerConfig = {
-  address: mintRedeemControllerAddress,
-  abi: mintRedeemControllerAbi,
-} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // MockUSDC
@@ -755,14 +739,6 @@ export const mockUsdcAbi = [
   },
 ] as const
 
-export const mockUsdcAddress =
-  '0xd5687e74B3c26aA25c2a5985E2Ff974A99Fd563C' as const
-
-export const mockUsdcConfig = {
-  address: mockUsdcAddress,
-  abi: mockUsdcAbi,
-} as const
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ReserveVault
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -978,14 +954,6 @@ export const reserveVaultAbi = [
   { type: 'error', inputs: [], name: 'ZeroAmount' },
 ] as const
 
-export const reserveVaultAddress =
-  '0x0d065884ce8D542510bF6b99B6Da8055e39f3dF5' as const
-
-export const reserveVaultConfig = {
-  address: reserveVaultAddress,
-  abi: reserveVaultAbi,
-} as const
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // TokenFaucet
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1144,14 +1112,6 @@ export const tokenFaucetAbi = [
   { type: 'error', inputs: [], name: 'ZeroAmount' },
   { type: 'error', inputs: [], name: 'ZeroCooldown' },
 ] as const
-
-export const tokenFaucetAddress =
-  '0xa10D4D20d9B856f2B8e4152C3e0d1802ADdc06cD' as const
-
-export const tokenFaucetConfig = {
-  address: tokenFaucetAddress,
-  abi: tokenFaucetAbi,
-} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // dUSD
@@ -1565,10 +1525,6 @@ export const dUsdAbi = [
   { type: 'error', inputs: [], name: 'ZeroAmount' },
 ] as const
 
-export const dUsdAddress = '0x530d583c44E44cc07154741f4D4B4cc9500bfa43' as const
-
-export const dUsdConfig = { address: dUsdAddress, abi: dUsdAbi } as const
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1578,7 +1534,6 @@ export const dUsdConfig = { address: dUsdAddress, abi: dUsdAbi } as const
  */
 export const useReadCompliancePolicy = /*#__PURE__*/ createUseReadContract({
   abi: compliancePolicyAbi,
-  address: compliancePolicyAddress,
 })
 
 /**
@@ -1587,7 +1542,6 @@ export const useReadCompliancePolicy = /*#__PURE__*/ createUseReadContract({
 export const useReadCompliancePolicyComplianceRole =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'COMPLIANCE_ROLE',
   })
 
@@ -1597,7 +1551,6 @@ export const useReadCompliancePolicyComplianceRole =
 export const useReadCompliancePolicyDefaultAdminRole =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'DEFAULT_ADMIN_ROLE',
   })
 
@@ -1607,7 +1560,6 @@ export const useReadCompliancePolicyDefaultAdminRole =
 export const useReadCompliancePolicyAllowlistEnabled =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'allowlistEnabled',
   })
 
@@ -1617,7 +1569,6 @@ export const useReadCompliancePolicyAllowlistEnabled =
 export const useReadCompliancePolicyGetRoleAdmin =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'getRoleAdmin',
   })
 
@@ -1627,7 +1578,6 @@ export const useReadCompliancePolicyGetRoleAdmin =
 export const useReadCompliancePolicyHasRole =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'hasRole',
   })
 
@@ -1637,7 +1587,6 @@ export const useReadCompliancePolicyHasRole =
 export const useReadCompliancePolicyIsAllowed =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'isAllowed',
   })
 
@@ -1647,7 +1596,6 @@ export const useReadCompliancePolicyIsAllowed =
 export const useReadCompliancePolicyIsAllowlisted =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'isAllowlisted',
   })
 
@@ -1657,7 +1605,6 @@ export const useReadCompliancePolicyIsAllowlisted =
 export const useReadCompliancePolicyIsBlocked =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'isBlocked',
   })
 
@@ -1667,7 +1614,6 @@ export const useReadCompliancePolicyIsBlocked =
 export const useReadCompliancePolicyJurisdictionAllowed =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'jurisdictionAllowed',
   })
 
@@ -1677,7 +1623,6 @@ export const useReadCompliancePolicyJurisdictionAllowed =
 export const useReadCompliancePolicyJurisdictionCheckEnabled =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'jurisdictionCheckEnabled',
   })
 
@@ -1687,7 +1632,6 @@ export const useReadCompliancePolicyJurisdictionCheckEnabled =
 export const useReadCompliancePolicyJurisdictionOf =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'jurisdictionOf',
   })
 
@@ -1697,7 +1641,6 @@ export const useReadCompliancePolicyJurisdictionOf =
 export const useReadCompliancePolicySupportsInterface =
   /*#__PURE__*/ createUseReadContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'supportsInterface',
   })
 
@@ -1706,7 +1649,6 @@ export const useReadCompliancePolicySupportsInterface =
  */
 export const useWriteCompliancePolicy = /*#__PURE__*/ createUseWriteContract({
   abi: compliancePolicyAbi,
-  address: compliancePolicyAddress,
 })
 
 /**
@@ -1715,7 +1657,6 @@ export const useWriteCompliancePolicy = /*#__PURE__*/ createUseWriteContract({
 export const useWriteCompliancePolicyGrantRole =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'grantRole',
   })
 
@@ -1725,7 +1666,6 @@ export const useWriteCompliancePolicyGrantRole =
 export const useWriteCompliancePolicyRenounceRole =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'renounceRole',
   })
 
@@ -1735,7 +1675,6 @@ export const useWriteCompliancePolicyRenounceRole =
 export const useWriteCompliancePolicyRevokeRole =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'revokeRole',
   })
 
@@ -1745,7 +1684,6 @@ export const useWriteCompliancePolicyRevokeRole =
 export const useWriteCompliancePolicySetAllowlistEnabled =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setAllowlistEnabled',
   })
 
@@ -1755,7 +1693,6 @@ export const useWriteCompliancePolicySetAllowlistEnabled =
 export const useWriteCompliancePolicySetAllowlisted =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setAllowlisted',
   })
 
@@ -1765,7 +1702,6 @@ export const useWriteCompliancePolicySetAllowlisted =
 export const useWriteCompliancePolicySetBlocked =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setBlocked',
   })
 
@@ -1775,7 +1711,6 @@ export const useWriteCompliancePolicySetBlocked =
 export const useWriteCompliancePolicySetJurisdiction =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setJurisdiction',
   })
 
@@ -1785,7 +1720,6 @@ export const useWriteCompliancePolicySetJurisdiction =
 export const useWriteCompliancePolicySetJurisdictionAllowed =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setJurisdictionAllowed',
   })
 
@@ -1795,7 +1729,6 @@ export const useWriteCompliancePolicySetJurisdictionAllowed =
 export const useWriteCompliancePolicySetJurisdictionCheckEnabled =
   /*#__PURE__*/ createUseWriteContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setJurisdictionCheckEnabled',
   })
 
@@ -1803,10 +1736,7 @@ export const useWriteCompliancePolicySetJurisdictionCheckEnabled =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link compliancePolicyAbi}__
  */
 export const useSimulateCompliancePolicy =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
-  })
+  /*#__PURE__*/ createUseSimulateContract({ abi: compliancePolicyAbi })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link compliancePolicyAbi}__ and `functionName` set to `"grantRole"`
@@ -1814,7 +1744,6 @@ export const useSimulateCompliancePolicy =
 export const useSimulateCompliancePolicyGrantRole =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'grantRole',
   })
 
@@ -1824,7 +1753,6 @@ export const useSimulateCompliancePolicyGrantRole =
 export const useSimulateCompliancePolicyRenounceRole =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'renounceRole',
   })
 
@@ -1834,7 +1762,6 @@ export const useSimulateCompliancePolicyRenounceRole =
 export const useSimulateCompliancePolicyRevokeRole =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'revokeRole',
   })
 
@@ -1844,7 +1771,6 @@ export const useSimulateCompliancePolicyRevokeRole =
 export const useSimulateCompliancePolicySetAllowlistEnabled =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setAllowlistEnabled',
   })
 
@@ -1854,7 +1780,6 @@ export const useSimulateCompliancePolicySetAllowlistEnabled =
 export const useSimulateCompliancePolicySetAllowlisted =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setAllowlisted',
   })
 
@@ -1864,7 +1789,6 @@ export const useSimulateCompliancePolicySetAllowlisted =
 export const useSimulateCompliancePolicySetBlocked =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setBlocked',
   })
 
@@ -1874,7 +1798,6 @@ export const useSimulateCompliancePolicySetBlocked =
 export const useSimulateCompliancePolicySetJurisdiction =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setJurisdiction',
   })
 
@@ -1884,7 +1807,6 @@ export const useSimulateCompliancePolicySetJurisdiction =
 export const useSimulateCompliancePolicySetJurisdictionAllowed =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setJurisdictionAllowed',
   })
 
@@ -1894,7 +1816,6 @@ export const useSimulateCompliancePolicySetJurisdictionAllowed =
 export const useSimulateCompliancePolicySetJurisdictionCheckEnabled =
   /*#__PURE__*/ createUseSimulateContract({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     functionName: 'setJurisdictionCheckEnabled',
   })
 
@@ -1902,10 +1823,7 @@ export const useSimulateCompliancePolicySetJurisdictionCheckEnabled =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link compliancePolicyAbi}__
  */
 export const useWatchCompliancePolicyEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
-  })
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: compliancePolicyAbi })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link compliancePolicyAbi}__ and `eventName` set to `"AllowlistModeUpdated"`
@@ -1913,7 +1831,6 @@ export const useWatchCompliancePolicyEvent =
 export const useWatchCompliancePolicyAllowlistModeUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'AllowlistModeUpdated',
   })
 
@@ -1923,7 +1840,6 @@ export const useWatchCompliancePolicyAllowlistModeUpdatedEvent =
 export const useWatchCompliancePolicyAllowlistUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'AllowlistUpdated',
   })
 
@@ -1933,7 +1849,6 @@ export const useWatchCompliancePolicyAllowlistUpdatedEvent =
 export const useWatchCompliancePolicyBlocklistUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'BlocklistUpdated',
   })
 
@@ -1943,7 +1858,6 @@ export const useWatchCompliancePolicyBlocklistUpdatedEvent =
 export const useWatchCompliancePolicyJurisdictionAllowanceUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'JurisdictionAllowanceUpdated',
   })
 
@@ -1953,7 +1867,6 @@ export const useWatchCompliancePolicyJurisdictionAllowanceUpdatedEvent =
 export const useWatchCompliancePolicyJurisdictionCheckUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'JurisdictionCheckUpdated',
   })
 
@@ -1963,7 +1876,6 @@ export const useWatchCompliancePolicyJurisdictionCheckUpdatedEvent =
 export const useWatchCompliancePolicyJurisdictionUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'JurisdictionUpdated',
   })
 
@@ -1973,7 +1885,6 @@ export const useWatchCompliancePolicyJurisdictionUpdatedEvent =
 export const useWatchCompliancePolicyRoleAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'RoleAdminChanged',
   })
 
@@ -1983,7 +1894,6 @@ export const useWatchCompliancePolicyRoleAdminChangedEvent =
 export const useWatchCompliancePolicyRoleGrantedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'RoleGranted',
   })
 
@@ -1993,7 +1903,6 @@ export const useWatchCompliancePolicyRoleGrantedEvent =
 export const useWatchCompliancePolicyRoleRevokedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: compliancePolicyAbi,
-    address: compliancePolicyAddress,
     eventName: 'RoleRevoked',
   })
 
@@ -2002,7 +1911,6 @@ export const useWatchCompliancePolicyRoleRevokedEvent =
  */
 export const useReadMintRedeemController = /*#__PURE__*/ createUseReadContract({
   abi: mintRedeemControllerAbi,
-  address: mintRedeemControllerAddress,
 })
 
 /**
@@ -2011,7 +1919,6 @@ export const useReadMintRedeemController = /*#__PURE__*/ createUseReadContract({
 export const useReadMintRedeemControllerCompliance =
   /*#__PURE__*/ createUseReadContract({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     functionName: 'COMPLIANCE',
   })
 
@@ -2021,7 +1928,6 @@ export const useReadMintRedeemControllerCompliance =
 export const useReadMintRedeemControllerDusd =
   /*#__PURE__*/ createUseReadContract({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     functionName: 'DUSD',
   })
 
@@ -2031,7 +1937,6 @@ export const useReadMintRedeemControllerDusd =
 export const useReadMintRedeemControllerScale =
   /*#__PURE__*/ createUseReadContract({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     functionName: 'SCALE',
   })
 
@@ -2041,7 +1946,6 @@ export const useReadMintRedeemControllerScale =
 export const useReadMintRedeemControllerVault =
   /*#__PURE__*/ createUseReadContract({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     functionName: 'VAULT',
   })
 
@@ -2049,10 +1953,7 @@ export const useReadMintRedeemControllerVault =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mintRedeemControllerAbi}__
  */
 export const useWriteMintRedeemController =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
-  })
+  /*#__PURE__*/ createUseWriteContract({ abi: mintRedeemControllerAbi })
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mintRedeemControllerAbi}__ and `functionName` set to `"mint"`
@@ -2060,7 +1961,6 @@ export const useWriteMintRedeemController =
 export const useWriteMintRedeemControllerMint =
   /*#__PURE__*/ createUseWriteContract({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     functionName: 'mint',
   })
 
@@ -2070,7 +1970,6 @@ export const useWriteMintRedeemControllerMint =
 export const useWriteMintRedeemControllerRedeem =
   /*#__PURE__*/ createUseWriteContract({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     functionName: 'redeem',
   })
 
@@ -2078,10 +1977,7 @@ export const useWriteMintRedeemControllerRedeem =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mintRedeemControllerAbi}__
  */
 export const useSimulateMintRedeemController =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
-  })
+  /*#__PURE__*/ createUseSimulateContract({ abi: mintRedeemControllerAbi })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mintRedeemControllerAbi}__ and `functionName` set to `"mint"`
@@ -2089,7 +1985,6 @@ export const useSimulateMintRedeemController =
 export const useSimulateMintRedeemControllerMint =
   /*#__PURE__*/ createUseSimulateContract({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     functionName: 'mint',
   })
 
@@ -2099,7 +1994,6 @@ export const useSimulateMintRedeemControllerMint =
 export const useSimulateMintRedeemControllerRedeem =
   /*#__PURE__*/ createUseSimulateContract({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     functionName: 'redeem',
   })
 
@@ -2107,10 +2001,7 @@ export const useSimulateMintRedeemControllerRedeem =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mintRedeemControllerAbi}__
  */
 export const useWatchMintRedeemControllerEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
-  })
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: mintRedeemControllerAbi })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mintRedeemControllerAbi}__ and `eventName` set to `"Minted"`
@@ -2118,7 +2009,6 @@ export const useWatchMintRedeemControllerEvent =
 export const useWatchMintRedeemControllerMintedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     eventName: 'Minted',
   })
 
@@ -2128,7 +2018,6 @@ export const useWatchMintRedeemControllerMintedEvent =
 export const useWatchMintRedeemControllerRedeemedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: mintRedeemControllerAbi,
-    address: mintRedeemControllerAddress,
     eventName: 'Redeemed',
   })
 
@@ -2137,7 +2026,6 @@ export const useWatchMintRedeemControllerRedeemedEvent =
  */
 export const useReadMockUsdc = /*#__PURE__*/ createUseReadContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
 })
 
 /**
@@ -2145,7 +2033,6 @@ export const useReadMockUsdc = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadMockUsdcAllowance = /*#__PURE__*/ createUseReadContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'allowance',
 })
 
@@ -2154,7 +2041,6 @@ export const useReadMockUsdcAllowance = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadMockUsdcBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'balanceOf',
 })
 
@@ -2163,7 +2049,6 @@ export const useReadMockUsdcBalanceOf = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadMockUsdcDecimals = /*#__PURE__*/ createUseReadContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'decimals',
 })
 
@@ -2172,7 +2057,6 @@ export const useReadMockUsdcDecimals = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadMockUsdcName = /*#__PURE__*/ createUseReadContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'name',
 })
 
@@ -2181,7 +2065,6 @@ export const useReadMockUsdcName = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadMockUsdcOwner = /*#__PURE__*/ createUseReadContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'owner',
 })
 
@@ -2190,7 +2073,6 @@ export const useReadMockUsdcOwner = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadMockUsdcSymbol = /*#__PURE__*/ createUseReadContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'symbol',
 })
 
@@ -2199,7 +2081,6 @@ export const useReadMockUsdcSymbol = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadMockUsdcTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'totalSupply',
 })
 
@@ -2208,7 +2089,6 @@ export const useReadMockUsdcTotalSupply = /*#__PURE__*/ createUseReadContract({
  */
 export const useWriteMockUsdc = /*#__PURE__*/ createUseWriteContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
 })
 
 /**
@@ -2216,7 +2096,6 @@ export const useWriteMockUsdc = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteMockUsdcApprove = /*#__PURE__*/ createUseWriteContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'approve',
 })
 
@@ -2225,7 +2104,6 @@ export const useWriteMockUsdcApprove = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteMockUsdcMint = /*#__PURE__*/ createUseWriteContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'mint',
 })
 
@@ -2235,7 +2113,6 @@ export const useWriteMockUsdcMint = /*#__PURE__*/ createUseWriteContract({
 export const useWriteMockUsdcRenounceOwnership =
   /*#__PURE__*/ createUseWriteContract({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     functionName: 'renounceOwnership',
   })
 
@@ -2244,7 +2121,6 @@ export const useWriteMockUsdcRenounceOwnership =
  */
 export const useWriteMockUsdcTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'transfer',
 })
 
@@ -2254,7 +2130,6 @@ export const useWriteMockUsdcTransfer = /*#__PURE__*/ createUseWriteContract({
 export const useWriteMockUsdcTransferFrom =
   /*#__PURE__*/ createUseWriteContract({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     functionName: 'transferFrom',
   })
 
@@ -2264,7 +2139,6 @@ export const useWriteMockUsdcTransferFrom =
 export const useWriteMockUsdcTransferOwnership =
   /*#__PURE__*/ createUseWriteContract({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     functionName: 'transferOwnership',
   })
 
@@ -2273,7 +2147,6 @@ export const useWriteMockUsdcTransferOwnership =
  */
 export const useSimulateMockUsdc = /*#__PURE__*/ createUseSimulateContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
 })
 
 /**
@@ -2282,7 +2155,6 @@ export const useSimulateMockUsdc = /*#__PURE__*/ createUseSimulateContract({
 export const useSimulateMockUsdcApprove =
   /*#__PURE__*/ createUseSimulateContract({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     functionName: 'approve',
   })
 
@@ -2291,7 +2163,6 @@ export const useSimulateMockUsdcApprove =
  */
 export const useSimulateMockUsdcMint = /*#__PURE__*/ createUseSimulateContract({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
   functionName: 'mint',
 })
 
@@ -2301,7 +2172,6 @@ export const useSimulateMockUsdcMint = /*#__PURE__*/ createUseSimulateContract({
 export const useSimulateMockUsdcRenounceOwnership =
   /*#__PURE__*/ createUseSimulateContract({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     functionName: 'renounceOwnership',
   })
 
@@ -2311,7 +2181,6 @@ export const useSimulateMockUsdcRenounceOwnership =
 export const useSimulateMockUsdcTransfer =
   /*#__PURE__*/ createUseSimulateContract({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     functionName: 'transfer',
   })
 
@@ -2321,7 +2190,6 @@ export const useSimulateMockUsdcTransfer =
 export const useSimulateMockUsdcTransferFrom =
   /*#__PURE__*/ createUseSimulateContract({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     functionName: 'transferFrom',
   })
 
@@ -2331,7 +2199,6 @@ export const useSimulateMockUsdcTransferFrom =
 export const useSimulateMockUsdcTransferOwnership =
   /*#__PURE__*/ createUseSimulateContract({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     functionName: 'transferOwnership',
   })
 
@@ -2340,7 +2207,6 @@ export const useSimulateMockUsdcTransferOwnership =
  */
 export const useWatchMockUsdcEvent = /*#__PURE__*/ createUseWatchContractEvent({
   abi: mockUsdcAbi,
-  address: mockUsdcAddress,
 })
 
 /**
@@ -2349,7 +2215,6 @@ export const useWatchMockUsdcEvent = /*#__PURE__*/ createUseWatchContractEvent({
 export const useWatchMockUsdcApprovalEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     eventName: 'Approval',
   })
 
@@ -2359,7 +2224,6 @@ export const useWatchMockUsdcApprovalEvent =
 export const useWatchMockUsdcOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     eventName: 'OwnershipTransferred',
   })
 
@@ -2369,7 +2233,6 @@ export const useWatchMockUsdcOwnershipTransferredEvent =
 export const useWatchMockUsdcTransferEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: mockUsdcAbi,
-    address: mockUsdcAddress,
     eventName: 'Transfer',
   })
 
@@ -2378,7 +2241,6 @@ export const useWatchMockUsdcTransferEvent =
  */
 export const useReadReserveVault = /*#__PURE__*/ createUseReadContract({
   abi: reserveVaultAbi,
-  address: reserveVaultAddress,
 })
 
 /**
@@ -2387,7 +2249,6 @@ export const useReadReserveVault = /*#__PURE__*/ createUseReadContract({
 export const useReadReserveVaultCollateral =
   /*#__PURE__*/ createUseReadContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'collateral',
   })
 
@@ -2397,7 +2258,6 @@ export const useReadReserveVaultCollateral =
 export const useReadReserveVaultController =
   /*#__PURE__*/ createUseReadContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'controller',
   })
 
@@ -2406,7 +2266,6 @@ export const useReadReserveVaultController =
  */
 export const useReadReserveVaultDeposits = /*#__PURE__*/ createUseReadContract({
   abi: reserveVaultAbi,
-  address: reserveVaultAddress,
   functionName: 'deposits',
 })
 
@@ -2415,7 +2274,6 @@ export const useReadReserveVaultDeposits = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadReserveVaultOwner = /*#__PURE__*/ createUseReadContract({
   abi: reserveVaultAbi,
-  address: reserveVaultAddress,
   functionName: 'owner',
 })
 
@@ -2424,7 +2282,6 @@ export const useReadReserveVaultOwner = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadReserveVaultSurplus = /*#__PURE__*/ createUseReadContract({
   abi: reserveVaultAbi,
-  address: reserveVaultAddress,
   functionName: 'surplus',
 })
 
@@ -2434,7 +2291,6 @@ export const useReadReserveVaultSurplus = /*#__PURE__*/ createUseReadContract({
 export const useReadReserveVaultTotalAssets =
   /*#__PURE__*/ createUseReadContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'totalAssets',
   })
 
@@ -2444,7 +2300,6 @@ export const useReadReserveVaultTotalAssets =
 export const useReadReserveVaultTotalDeposits =
   /*#__PURE__*/ createUseReadContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'totalDeposits',
   })
 
@@ -2453,7 +2308,6 @@ export const useReadReserveVaultTotalDeposits =
  */
 export const useWriteReserveVault = /*#__PURE__*/ createUseWriteContract({
   abi: reserveVaultAbi,
-  address: reserveVaultAddress,
 })
 
 /**
@@ -2462,7 +2316,6 @@ export const useWriteReserveVault = /*#__PURE__*/ createUseWriteContract({
 export const useWriteReserveVaultDepositFor =
   /*#__PURE__*/ createUseWriteContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'depositFor',
   })
 
@@ -2472,7 +2325,6 @@ export const useWriteReserveVaultDepositFor =
 export const useWriteReserveVaultReleaseTo =
   /*#__PURE__*/ createUseWriteContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'releaseTo',
   })
 
@@ -2482,7 +2334,6 @@ export const useWriteReserveVaultReleaseTo =
 export const useWriteReserveVaultRenounceOwnership =
   /*#__PURE__*/ createUseWriteContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'renounceOwnership',
   })
 
@@ -2492,7 +2343,6 @@ export const useWriteReserveVaultRenounceOwnership =
 export const useWriteReserveVaultSetController =
   /*#__PURE__*/ createUseWriteContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'setController',
   })
 
@@ -2502,7 +2352,6 @@ export const useWriteReserveVaultSetController =
 export const useWriteReserveVaultTransferOwnership =
   /*#__PURE__*/ createUseWriteContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'transferOwnership',
   })
 
@@ -2511,7 +2360,6 @@ export const useWriteReserveVaultTransferOwnership =
  */
 export const useSimulateReserveVault = /*#__PURE__*/ createUseSimulateContract({
   abi: reserveVaultAbi,
-  address: reserveVaultAddress,
 })
 
 /**
@@ -2520,7 +2368,6 @@ export const useSimulateReserveVault = /*#__PURE__*/ createUseSimulateContract({
 export const useSimulateReserveVaultDepositFor =
   /*#__PURE__*/ createUseSimulateContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'depositFor',
   })
 
@@ -2530,7 +2377,6 @@ export const useSimulateReserveVaultDepositFor =
 export const useSimulateReserveVaultReleaseTo =
   /*#__PURE__*/ createUseSimulateContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'releaseTo',
   })
 
@@ -2540,7 +2386,6 @@ export const useSimulateReserveVaultReleaseTo =
 export const useSimulateReserveVaultRenounceOwnership =
   /*#__PURE__*/ createUseSimulateContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'renounceOwnership',
   })
 
@@ -2550,7 +2395,6 @@ export const useSimulateReserveVaultRenounceOwnership =
 export const useSimulateReserveVaultSetController =
   /*#__PURE__*/ createUseSimulateContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'setController',
   })
 
@@ -2560,7 +2404,6 @@ export const useSimulateReserveVaultSetController =
 export const useSimulateReserveVaultTransferOwnership =
   /*#__PURE__*/ createUseSimulateContract({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     functionName: 'transferOwnership',
   })
 
@@ -2568,10 +2411,7 @@ export const useSimulateReserveVaultTransferOwnership =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link reserveVaultAbi}__
  */
 export const useWatchReserveVaultEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: reserveVaultAbi,
-    address: reserveVaultAddress,
-  })
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: reserveVaultAbi })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link reserveVaultAbi}__ and `eventName` set to `"ControllerUpdated"`
@@ -2579,7 +2419,6 @@ export const useWatchReserveVaultEvent =
 export const useWatchReserveVaultControllerUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     eventName: 'ControllerUpdated',
   })
 
@@ -2589,7 +2428,6 @@ export const useWatchReserveVaultControllerUpdatedEvent =
 export const useWatchReserveVaultDepositedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     eventName: 'Deposited',
   })
 
@@ -2599,7 +2437,6 @@ export const useWatchReserveVaultDepositedEvent =
 export const useWatchReserveVaultOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     eventName: 'OwnershipTransferred',
   })
 
@@ -2609,7 +2446,6 @@ export const useWatchReserveVaultOwnershipTransferredEvent =
 export const useWatchReserveVaultReleasedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: reserveVaultAbi,
-    address: reserveVaultAddress,
     eventName: 'Released',
   })
 
@@ -2618,7 +2454,6 @@ export const useWatchReserveVaultReleasedEvent =
  */
 export const useReadTokenFaucet = /*#__PURE__*/ createUseReadContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
 })
 
 /**
@@ -2626,7 +2461,6 @@ export const useReadTokenFaucet = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadTokenFaucetAmount = /*#__PURE__*/ createUseReadContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
   functionName: 'AMOUNT',
 })
 
@@ -2635,7 +2469,6 @@ export const useReadTokenFaucetAmount = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadTokenFaucetCap = /*#__PURE__*/ createUseReadContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
   functionName: 'CAP',
 })
 
@@ -2643,11 +2476,7 @@ export const useReadTokenFaucetCap = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenFaucetAbi}__ and `functionName` set to `"COMPLIANCE"`
  */
 export const useReadTokenFaucetCompliance = /*#__PURE__*/ createUseReadContract(
-  {
-    abi: tokenFaucetAbi,
-    address: tokenFaucetAddress,
-    functionName: 'COMPLIANCE',
-  },
+  { abi: tokenFaucetAbi, functionName: 'COMPLIANCE' },
 )
 
 /**
@@ -2655,7 +2484,6 @@ export const useReadTokenFaucetCompliance = /*#__PURE__*/ createUseReadContract(
  */
 export const useReadTokenFaucetCooldown = /*#__PURE__*/ createUseReadContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
   functionName: 'COOLDOWN',
 })
 
@@ -2664,7 +2492,6 @@ export const useReadTokenFaucetCooldown = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadTokenFaucetMusdc = /*#__PURE__*/ createUseReadContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
   functionName: 'MUSDC',
 })
 
@@ -2673,7 +2500,6 @@ export const useReadTokenFaucetMusdc = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadTokenFaucetCanClaim = /*#__PURE__*/ createUseReadContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
   functionName: 'canClaim',
 })
 
@@ -2682,7 +2508,6 @@ export const useReadTokenFaucetCanClaim = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadTokenFaucetClaimed = /*#__PURE__*/ createUseReadContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
   functionName: 'claimed',
 })
 
@@ -2691,7 +2516,6 @@ export const useReadTokenFaucetClaimed = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadTokenFaucetLastClaim = /*#__PURE__*/ createUseReadContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
   functionName: 'lastClaim',
 })
 
@@ -2701,7 +2525,6 @@ export const useReadTokenFaucetLastClaim = /*#__PURE__*/ createUseReadContract({
 export const useReadTokenFaucetNextClaimAt =
   /*#__PURE__*/ createUseReadContract({
     abi: tokenFaucetAbi,
-    address: tokenFaucetAddress,
     functionName: 'nextClaimAt',
   })
 
@@ -2710,7 +2533,6 @@ export const useReadTokenFaucetNextClaimAt =
  */
 export const useWriteTokenFaucet = /*#__PURE__*/ createUseWriteContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
 })
 
 /**
@@ -2718,7 +2540,6 @@ export const useWriteTokenFaucet = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteTokenFaucetClaim = /*#__PURE__*/ createUseWriteContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
   functionName: 'claim',
 })
 
@@ -2727,7 +2548,6 @@ export const useWriteTokenFaucetClaim = /*#__PURE__*/ createUseWriteContract({
  */
 export const useSimulateTokenFaucet = /*#__PURE__*/ createUseSimulateContract({
   abi: tokenFaucetAbi,
-  address: tokenFaucetAddress,
 })
 
 /**
@@ -2736,7 +2556,6 @@ export const useSimulateTokenFaucet = /*#__PURE__*/ createUseSimulateContract({
 export const useSimulateTokenFaucetClaim =
   /*#__PURE__*/ createUseSimulateContract({
     abi: tokenFaucetAbi,
-    address: tokenFaucetAddress,
     functionName: 'claim',
   })
 
@@ -2744,10 +2563,7 @@ export const useSimulateTokenFaucetClaim =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link tokenFaucetAbi}__
  */
 export const useWatchTokenFaucetEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: tokenFaucetAbi,
-    address: tokenFaucetAddress,
-  })
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: tokenFaucetAbi })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link tokenFaucetAbi}__ and `eventName` set to `"Claimed"`
@@ -2755,24 +2571,19 @@ export const useWatchTokenFaucetEvent =
 export const useWatchTokenFaucetClaimedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: tokenFaucetAbi,
-    address: tokenFaucetAddress,
     eventName: 'Claimed',
   })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link dUsdAbi}__
  */
-export const useReadDUsd = /*#__PURE__*/ createUseReadContract({
-  abi: dUsdAbi,
-  address: dUsdAddress,
-})
+export const useReadDUsd = /*#__PURE__*/ createUseReadContract({ abi: dUsdAbi })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link dUsdAbi}__ and `functionName` set to `"COMPLIANCE"`
  */
 export const useReadDUsdCompliance = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'COMPLIANCE',
 })
 
@@ -2781,7 +2592,6 @@ export const useReadDUsdCompliance = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdDefaultAdminRole = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'DEFAULT_ADMIN_ROLE',
 })
 
@@ -2790,7 +2600,6 @@ export const useReadDUsdDefaultAdminRole = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdMinterRole = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'MINTER_ROLE',
 })
 
@@ -2799,7 +2608,6 @@ export const useReadDUsdMinterRole = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdPauserRole = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'PAUSER_ROLE',
 })
 
@@ -2808,7 +2616,6 @@ export const useReadDUsdPauserRole = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdAllowance = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'allowance',
 })
 
@@ -2817,7 +2624,6 @@ export const useReadDUsdAllowance = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'balanceOf',
 })
 
@@ -2826,7 +2632,6 @@ export const useReadDUsdBalanceOf = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdDecimals = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'decimals',
 })
 
@@ -2835,7 +2640,6 @@ export const useReadDUsdDecimals = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdGetRoleAdmin = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'getRoleAdmin',
 })
 
@@ -2844,7 +2648,6 @@ export const useReadDUsdGetRoleAdmin = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdHasRole = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'hasRole',
 })
 
@@ -2853,7 +2656,6 @@ export const useReadDUsdHasRole = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdName = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'name',
 })
 
@@ -2862,7 +2664,6 @@ export const useReadDUsdName = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdPaused = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'paused',
 })
 
@@ -2870,7 +2671,7 @@ export const useReadDUsdPaused = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link dUsdAbi}__ and `functionName` set to `"supportsInterface"`
  */
 export const useReadDUsdSupportsInterface = /*#__PURE__*/ createUseReadContract(
-  { abi: dUsdAbi, address: dUsdAddress, functionName: 'supportsInterface' },
+  { abi: dUsdAbi, functionName: 'supportsInterface' },
 )
 
 /**
@@ -2878,7 +2679,6 @@ export const useReadDUsdSupportsInterface = /*#__PURE__*/ createUseReadContract(
  */
 export const useReadDUsdSymbol = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'symbol',
 })
 
@@ -2887,7 +2687,6 @@ export const useReadDUsdSymbol = /*#__PURE__*/ createUseReadContract({
  */
 export const useReadDUsdTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'totalSupply',
 })
 
@@ -2896,7 +2695,6 @@ export const useReadDUsdTotalSupply = /*#__PURE__*/ createUseReadContract({
  */
 export const useWriteDUsd = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
 })
 
 /**
@@ -2904,7 +2702,6 @@ export const useWriteDUsd = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdApprove = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'approve',
 })
 
@@ -2913,7 +2710,6 @@ export const useWriteDUsdApprove = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdBurn = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'burn',
 })
 
@@ -2922,7 +2718,6 @@ export const useWriteDUsdBurn = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdBurnFrom = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'burnFrom',
 })
 
@@ -2931,7 +2726,6 @@ export const useWriteDUsdBurnFrom = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdGrantRole = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'grantRole',
 })
 
@@ -2940,7 +2734,6 @@ export const useWriteDUsdGrantRole = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdMint = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'mint',
 })
 
@@ -2949,7 +2742,6 @@ export const useWriteDUsdMint = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdPause = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'pause',
 })
 
@@ -2958,7 +2750,6 @@ export const useWriteDUsdPause = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdRenounceRole = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'renounceRole',
 })
 
@@ -2967,7 +2758,6 @@ export const useWriteDUsdRenounceRole = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdRevokeRole = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'revokeRole',
 })
 
@@ -2976,7 +2766,6 @@ export const useWriteDUsdRevokeRole = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'transfer',
 })
 
@@ -2985,7 +2774,6 @@ export const useWriteDUsdTransfer = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'transferFrom',
 })
 
@@ -2994,7 +2782,6 @@ export const useWriteDUsdTransferFrom = /*#__PURE__*/ createUseWriteContract({
  */
 export const useWriteDUsdUnpause = /*#__PURE__*/ createUseWriteContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'unpause',
 })
 
@@ -3003,7 +2790,6 @@ export const useWriteDUsdUnpause = /*#__PURE__*/ createUseWriteContract({
  */
 export const useSimulateDUsd = /*#__PURE__*/ createUseSimulateContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
 })
 
 /**
@@ -3011,7 +2797,6 @@ export const useSimulateDUsd = /*#__PURE__*/ createUseSimulateContract({
  */
 export const useSimulateDUsdApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'approve',
 })
 
@@ -3020,7 +2805,6 @@ export const useSimulateDUsdApprove = /*#__PURE__*/ createUseSimulateContract({
  */
 export const useSimulateDUsdBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'burn',
 })
 
@@ -3029,7 +2813,6 @@ export const useSimulateDUsdBurn = /*#__PURE__*/ createUseSimulateContract({
  */
 export const useSimulateDUsdBurnFrom = /*#__PURE__*/ createUseSimulateContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'burnFrom',
 })
 
@@ -3037,7 +2820,7 @@ export const useSimulateDUsdBurnFrom = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link dUsdAbi}__ and `functionName` set to `"grantRole"`
  */
 export const useSimulateDUsdGrantRole = /*#__PURE__*/ createUseSimulateContract(
-  { abi: dUsdAbi, address: dUsdAddress, functionName: 'grantRole' },
+  { abi: dUsdAbi, functionName: 'grantRole' },
 )
 
 /**
@@ -3045,7 +2828,6 @@ export const useSimulateDUsdGrantRole = /*#__PURE__*/ createUseSimulateContract(
  */
 export const useSimulateDUsdMint = /*#__PURE__*/ createUseSimulateContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'mint',
 })
 
@@ -3054,7 +2836,6 @@ export const useSimulateDUsdMint = /*#__PURE__*/ createUseSimulateContract({
  */
 export const useSimulateDUsdPause = /*#__PURE__*/ createUseSimulateContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'pause',
 })
 
@@ -3064,7 +2845,6 @@ export const useSimulateDUsdPause = /*#__PURE__*/ createUseSimulateContract({
 export const useSimulateDUsdRenounceRole =
   /*#__PURE__*/ createUseSimulateContract({
     abi: dUsdAbi,
-    address: dUsdAddress,
     functionName: 'renounceRole',
   })
 
@@ -3074,7 +2854,6 @@ export const useSimulateDUsdRenounceRole =
 export const useSimulateDUsdRevokeRole =
   /*#__PURE__*/ createUseSimulateContract({
     abi: dUsdAbi,
-    address: dUsdAddress,
     functionName: 'revokeRole',
   })
 
@@ -3083,7 +2862,6 @@ export const useSimulateDUsdRevokeRole =
  */
 export const useSimulateDUsdTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'transfer',
 })
 
@@ -3093,7 +2871,6 @@ export const useSimulateDUsdTransfer = /*#__PURE__*/ createUseSimulateContract({
 export const useSimulateDUsdTransferFrom =
   /*#__PURE__*/ createUseSimulateContract({
     abi: dUsdAbi,
-    address: dUsdAddress,
     functionName: 'transferFrom',
   })
 
@@ -3102,7 +2879,6 @@ export const useSimulateDUsdTransferFrom =
  */
 export const useSimulateDUsdUnpause = /*#__PURE__*/ createUseSimulateContract({
   abi: dUsdAbi,
-  address: dUsdAddress,
   functionName: 'unpause',
 })
 
@@ -3111,7 +2887,6 @@ export const useSimulateDUsdUnpause = /*#__PURE__*/ createUseSimulateContract({
  */
 export const useWatchDUsdEvent = /*#__PURE__*/ createUseWatchContractEvent({
   abi: dUsdAbi,
-  address: dUsdAddress,
 })
 
 /**
@@ -3120,7 +2895,6 @@ export const useWatchDUsdEvent = /*#__PURE__*/ createUseWatchContractEvent({
 export const useWatchDUsdApprovalEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: dUsdAbi,
-    address: dUsdAddress,
     eventName: 'Approval',
   })
 
@@ -3130,7 +2904,6 @@ export const useWatchDUsdApprovalEvent =
 export const useWatchDUsdPausedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: dUsdAbi,
-    address: dUsdAddress,
     eventName: 'Paused',
   })
 
@@ -3140,7 +2913,6 @@ export const useWatchDUsdPausedEvent =
 export const useWatchDUsdRoleAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: dUsdAbi,
-    address: dUsdAddress,
     eventName: 'RoleAdminChanged',
   })
 
@@ -3150,7 +2922,6 @@ export const useWatchDUsdRoleAdminChangedEvent =
 export const useWatchDUsdRoleGrantedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: dUsdAbi,
-    address: dUsdAddress,
     eventName: 'RoleGranted',
   })
 
@@ -3160,7 +2931,6 @@ export const useWatchDUsdRoleGrantedEvent =
 export const useWatchDUsdRoleRevokedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: dUsdAbi,
-    address: dUsdAddress,
     eventName: 'RoleRevoked',
   })
 
@@ -3170,7 +2940,6 @@ export const useWatchDUsdRoleRevokedEvent =
 export const useWatchDUsdTransferEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: dUsdAbi,
-    address: dUsdAddress,
     eventName: 'Transfer',
   })
 
@@ -3180,6 +2949,5 @@ export const useWatchDUsdTransferEvent =
 export const useWatchDUsdUnpausedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: dUsdAbi,
-    address: dUsdAddress,
     eventName: 'Unpaused',
   })

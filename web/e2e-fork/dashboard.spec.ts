@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import deployment from "../src/lib/deployments/84532.json";
+import deployment from "../src/lib/deployments/base-sepolia/deployment.json";
 import { installInjectedProvider } from "./injected-provider";
 
 const FORK_RPC = process.env.FORK_RPC ?? "http://127.0.0.1:8545";

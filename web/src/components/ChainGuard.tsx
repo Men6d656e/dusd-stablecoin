@@ -2,18 +2,19 @@
 
 import { toast } from "sonner";
 import { useConnection, useSwitchChain } from "wagmi";
-import { baseSepolia } from "wagmi/chains";
 import { Button } from "@/components/ui/button";
+import { activeChain, activeNetworkConfig } from "@/lib/networks";
 
 export function ChainGuard() {
   const { chainId, isConnected } = useConnection();
   const { mutate: switchChain, isPending } = useSwitchChain();
 
-  if (!isConnected || chainId === baseSepolia.id) return null;
+  if (!isConnected || chainId === activeChain.id) return null;
 
   return (
     <div className="w-full border-b border-red-300 bg-red-100 px-4 py-2 text-center text-sm text-red-900">
-      Wrong network. dUSD lives on Base Sepolia (chain {baseSepolia.id}).
+      Wrong network. dUSD lives on {activeNetworkConfig.label} (chain{" "}
+      {activeChain.id}).
       <Button
         size="sm"
         variant="outline"
@@ -21,12 +22,12 @@ export function ChainGuard() {
         disabled={isPending}
         onClick={() =>
           switchChain(
-            { chainId: baseSepolia.id },
+            { chainId: activeChain.id },
             { onError: (err) => toast.error(err.message) },
           )
         }
       >
-        {isPending ? "Switching…" : "Switch to Base Sepolia"}
+        {isPending ? "Switching…" : `Switch to ${activeNetworkConfig.label}`}
       </Button>
     </div>
   );
