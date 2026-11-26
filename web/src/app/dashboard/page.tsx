@@ -3,7 +3,6 @@
 import { keepPreviousData } from "@tanstack/react-query";
 import type { Address } from "viem";
 import { useBlockNumber, useConnection } from "wagmi";
-import { baseSepolia } from "wagmi/chains";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   useReadDUsdBalanceOf,
@@ -15,6 +14,7 @@ import {
 } from "@/generated/contracts";
 import { contracts } from "@/lib/contracts";
 import { backingRatioBps, formatCollateral, formatDusd } from "@/lib/format";
+import { activeChain, activeNetworkConfig } from "@/lib/networks";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000" as Address;
 
@@ -23,35 +23,41 @@ export default function DashboardPage() {
   const { data: blockNumber } = useBlockNumber({ watch: true });
 
   const account = address ?? ZERO_ADDRESS;
-  const onRightChain = chainId === baseSepolia.id;
+  const onRightChain = chainId === activeChain.id;
   const ready = Boolean(address) && onRightChain && blockNumber !== undefined;
 
   // keepPreviousData keeps the last successful read visible while a new block
   // is fetched. Without it every block change produced an empty cache entry,
   // the grid was replaced by the loading text, and the page visibly blinked.
   const usdcBalance = useReadMockUsdcBalanceOf({
+    address: contracts.MockUSDC,
     args: [account],
     blockNumber,
     query: { enabled: ready, placeholderData: keepPreviousData },
   });
   const dusdBalance = useReadDUsdBalanceOf({
+    address: contracts.dUSD,
     args: [account],
     blockNumber,
     query: { enabled: ready, placeholderData: keepPreviousData },
   });
   const totalSupply = useReadDUsdTotalSupply({
+    address: contracts.dUSD,
     blockNumber,
     query: { enabled: ready, placeholderData: keepPreviousData },
   });
   const totalAssets = useReadReserveVaultTotalAssets({
+    address: contracts.ReserveVault,
     blockNumber,
     query: { enabled: ready, placeholderData: keepPreviousData },
   });
   const totalDeposits = useReadReserveVaultTotalDeposits({
+    address: contracts.ReserveVault,
     blockNumber,
     query: { enabled: ready, placeholderData: keepPreviousData },
   });
   const surplus = useReadReserveVaultSurplus({
+    address: contracts.ReserveVault,
     blockNumber,
     query: { enabled: ready, placeholderData: keepPreviousData },
   });
@@ -88,7 +94,9 @@ export default function DashboardPage() {
     return (
       <section className="space-y-4">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <p className="text-red-600">Switch to Base Sepolia to read balances.</p>
+        <p className="text-red-600">
+          Switch to {activeNetworkConfig.label} to read balances.
+        </p>
       </section>
     );
   }
@@ -167,14 +175,14 @@ export default function DashboardPage() {
       ) : null}
       <div className="rounded-md border border-neutral-200 p-4 text-xs text-neutral-600 dark:border-neutral-800">
         <p>
-          Values from Base Sepolia block{" "}
+          Values from {activeNetworkConfig.label} block{" "}
           <span data-testid="dashboard-block" className="font-mono">
             {blockNumber?.toString() ?? "…"}
           </span>
           . Reproduce them with:
         </p>
         <pre className="mt-2 overflow-x-auto font-mono">
-          {`cast call ${contracts.dUSD} "totalSupply()(uint256)" --rpc-url https://sepolia.base.org --block ${blockNumber?.toString() ?? "<block>"}`}
+          {`cast call ${contracts.dUSD} "totalSupply()(uint256)" --rpc-url ${activeNetworkConfig.defaultRpcUrl} --block ${blockNumber?.toString() ?? "<block>"}`}
         </pre>
       </div>
     </section>

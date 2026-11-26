@@ -6,6 +6,7 @@
       "!node_modules",
       "!.next",
       "!src/generated",
+      "!src/lib/networks.generated.ts",
       "!public",
       "!src/lib/abi",
       "!src/lib/deployments",

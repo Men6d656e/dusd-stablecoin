@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# dUSD web
 
-## Getting Started
+Next.js app for the dUSD case study. It reads one deployment selected by
+`NEXT_PUBLIC_NETWORK`; the ABI is shared, the addresses are per network.
 
-First, run the development server:
+## Run
+
+From the repository root (recommended — the Makefile checks manifests and the
+network stamp):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+make web NETWORK=anvil          # local chain
+make web NETWORK=base-sepolia   # real testnet, read-only demo
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Or directly:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+NEXT_PUBLIC_NETWORK=anvil pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`NEXT_PUBLIC_*` is inlined at build time, so a running bundle cannot change
+chains. `make web` clears `.next` when `NETWORK` differs from
+`web/.next/active-network`; `make web-clean` does it manually.
 
-## Learn More
+## Environment
 
-To learn more about Next.js, take a look at the following resources:
+| Variable              | Purpose                                           |
+| --------------------- | ------------------------------------------------- |
+| `NEXT_PUBLIC_NETWORK` | `anvil` (default) or `base-sepolia`               |
+| `NEXT_PUBLIC_RPC_URL` | Optional RPC override for the active network only |
+| `NEXT_PUBLIC_E2E`     | `1` enables the mock connector used by Playwright |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Copy `.env.example` to `.env.local` if you need an override. Do not add secrets:
+everything prefixed `NEXT_PUBLIC_` ships to the browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Layout
 
-## Deploy on Vercel
+```text
+src/lib/networks.generated.ts   generated from ../networks.json — do not edit
+src/lib/networks.ts             the only place the app reads the env
+src/lib/deployments/            per-network manifests + schema + getDeployment()
+src/lib/abi/<network>/          ABI snapshots the app builds from
+src/lib/wagmi/config.ts         both chains, per-network storage key
+src/generated/contracts.ts      ABI-only wagmi hooks (address passed at call site)
+src/app/api/health/route.ts     expected vs actual chain id, 503 on mismatch
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Checks
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm test:e2e        # mock connector
+pnpm test:e2e:fork   # real write path on an Anvil fork of Base Sepolia
+```
+
+`/api/health` is the truth detector: `expectedChainId` must equal
+`actualChainId`. If it returns 503, the selected network and the RPC disagree.
+
+Full command matrix and artifact rules: [../RUNBOOK.md](../RUNBOOK.md).

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AccountChip } from "@/components/AccountChip";
 import { ChainGuard } from "@/components/ChainGuard";
 import { ConnectButton } from "@/components/ConnectButton";
+import { activeNetwork, activeNetworkConfig, tierLabel } from "@/lib/networks";
 
 export function SiteHeader() {
   return (
@@ -25,7 +26,7 @@ export function SiteHeader() {
             Faucet
           </Link>
           <span className="text-sm text-neutral-500">
-            Base Sepolia · testnet
+            {activeNetworkConfig.label} · {tierLabel(activeNetwork)}
           </span>
         </div>
         <div className="flex items-center gap-2">

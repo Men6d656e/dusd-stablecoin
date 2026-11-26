@@ -8,9 +8,14 @@ proof-of-reserves next.
 
 **Status:** contracts complete and deployed to Base Sepolia. Seven contracts,
 149 Foundry tests (unit, fuzz and invariant), a formatting and lint gate, green
-CI, and verified source on Basescan. Addresses are in `deployments/84532.json`
+CI, and verified source on Basescan. The web app (W1–W4.1) reads the deployment
+through one network selector: `anvil` for a local clean-room chain, `base-sepolia`
+for the real testnet. Addresses are in `deployments/base-sepolia/deployment.json`
 and in the table below. Testnet only — no real money; do not send funds to any
 address claiming to be this project.
+
+Runbook: [RUNBOOK.md](RUNBOOK.md) — command matrix, network switching, artifact
+rules, and the "which chain am I on?" checklist.
 
 ## Base Sepolia deployment (2026-11-24)
 
@@ -43,22 +48,52 @@ details and deployment commands live in [contracts/README.md](contracts/README.m
 ## Repository layout
 
 ```text
-contracts/     Foundry project: src/, test/, script/, lib/
-.github/       CI: forge fmt, forge build --sizes, forge test
+contracts/        Foundry project: src/, test/, script/, lib/
+deployments/      Per-network manifests (anvil/, base-sepolia/)
+scripts/          export, sync, verification, artifact checks
+web/              Next.js app (wallet, dashboard, faucet)
+networks.json     Chain metadata: slug -> chainId, label, RPC, explorer
+Makefile          NETWORK-driven entry point for every chain operation
+RUNBOOK.md        Command matrix and artifact rules
+.github/          CI: forge fmt/build/test, web lint/typecheck/test/build/e2e
 LICENSE
 README.md
 ```
 
-`deployments/`, `scripts/` and `Makefile` are in place; `web/` arrives with the
-web phase.
+## Network targets
+
+One codebase, one selector, isolated artifacts:
+
+| Network | Chain | Selector | Artifacts |
+|---|---|---|---|
+| Local Anvil | 31337 | `NEXT_PUBLIC_NETWORK=anvil` | `deployments/anvil/` |
+| Base Sepolia | 84532 | `NEXT_PUBLIC_NETWORK=base-sepolia` | `deployments/base-sepolia/` |
+
+```bash
+make anvil                         # clean local chain
+make deploy NETWORK=anvil          # deploy + export + sync
+make web NETWORK=anvil             # app on the local manifest
+
+make web NETWORK=base-sepolia      # app on the real testnet manifest
+```
+
+A real testnet deploy is gated: `make deploy NETWORK=base-sepolia CONFIRM=1`
+refuses on a dirty tree and prints the commit before broadcasting. `make sync`
+refuses to overwrite the Base Sepolia ABI snapshot unless `FORCE=1`.
 
 ## Quick start
 
 ```bash
+# contracts
 cd contracts
 forge test -vvv
 forge fmt --check
 forge lint
+
+# web
+cd web
+pnpm install
+pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
 
 The CI profile, which the GitHub Actions job runs:

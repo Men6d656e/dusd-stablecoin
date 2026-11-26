@@ -1,77 +1,109 @@
 #!/usr/bin/env node
-// Copy the generated ABIs and the deployment file into the web app.
+// Copy the generated ABIs and the deployment manifest into the web app.
 //
-// This is a no-op until web/ exists (phase 3, module W1). It never fails the
-// deploy on a missing web app: the addresses on chain are already the source of
-// truth, and the export in deployments/ is committed.
+// Safety rule: a public-testnet snapshot is an audit record, not a build cache.
+// If the addresses or the ABI hash changed, this script refuses to overwrite
+// the snapshot unless FORCE=1 is set. Local Anvil snapshots can be refreshed
+// freely.
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import path from "node:path";
-
-const repoRoot = path.resolve(import.meta.dirname, "..");
+import {
+  CONTRACTS,
+  hashAbiMap,
+  readArtifactAbiMap,
+  readJson,
+  sameContracts,
+  writeJsonAtomic,
+} from "./lib/abi.mjs";
+import {
+  contractArtifactDir,
+  deploymentPath,
+  parseFlags,
+  repoRoot,
+  resolveNetwork,
+  webAbiDir,
+  webDeploymentPath,
+} from "./lib/networks.mjs";
 
 function fail(message) {
   console.error(`sync-artifacts: ${message}`);
   process.exit(1);
 }
 
-function argValue(flag, fallback) {
-  const index = process.argv.indexOf(flag);
-  if (index === -1) return fallback;
-  const value = process.argv[index + 1];
-  if (!value || value.startsWith("--")) fail(`${flag} needs a value`);
-  return value;
+const flags = parseFlags();
+const force = Boolean(flags.force) || process.env.FORCE === "1";
+
+let target;
+try {
+  target = resolveNetwork({
+    network: flags.network ?? process.env.NETWORK,
+    chainId: flags["chain-id"] ?? process.env.CHAIN_ID,
+  });
+} catch (error) {
+  fail(error.message);
 }
 
-const chainId = String(argValue("--chain-id", process.env.CHAIN_ID ?? ""));
-if (!/^\d+$/.test(chainId)) {
-  fail("pass --chain-id <id>, for example --chain-id 84532");
+const { slug, chainId, config } = target;
+const manifestPath = deploymentPath(slug);
+
+if (!existsSync(manifestPath)) {
+  fail(`no manifest at ${path.relative(repoRoot, manifestPath)}; run make export NETWORK=${slug} first`);
 }
 
-const deploymentPath = path.join(repoRoot, "deployments", `${chainId}.json`);
-if (!existsSync(deploymentPath)) {
+const deployment = readJson(manifestPath);
+if (deployment.network !== slug || deployment.chainId !== chainId) {
   fail(
-    `no deployment at deployments/${chainId}.json; run make export CHAIN_ID=${chainId} first`,
+    `manifest says ${deployment.network}/${deployment.chainId}, expected ${slug}/${chainId}`,
   );
 }
 
 const webDir = path.join(repoRoot, "web");
 if (!existsSync(path.join(webDir, "package.json"))) {
   console.log("sync-artifacts: web/ is not scaffolded yet - skipping (no-op)");
-  console.log(`  deployment is ready at deployments/${chainId}.json`);
+  console.log(`  manifest is ready at ${path.relative(repoRoot, manifestPath)}`);
   process.exit(0);
 }
 
-const deployment = JSON.parse(readFileSync(deploymentPath, "utf8"));
-const abiDir = path.join(webDir, "src", "lib", "abi");
-const deploymentsDir = path.join(webDir, "src", "lib", "deployments");
-mkdirSync(abiDir, { recursive: true });
-mkdirSync(deploymentsDir, { recursive: true });
+const abiMap = readArtifactAbiMap(contractArtifactDir());
+if (!abiMap) {
+  fail("contracts/out is incomplete; run: make build");
+}
+const currentAbiHash = hashAbiMap(abiMap);
 
-const copied = [];
-for (const name of Object.keys(deployment.contracts)) {
-  const artifactPath = path.join(
-    repoRoot,
-    "contracts",
-    "out",
-    `${name}.sol`,
-    `${name}.json`,
-  );
-  if (!existsSync(artifactPath)) {
-    fail(`missing artifact ${path.relative(repoRoot, artifactPath)}; run forge build`);
+const isPublicNetwork = config.tier !== "local";
+const snapshotPath = webDeploymentPath(slug);
+
+if (isPublicNetwork && !force && existsSync(snapshotPath)) {
+  const previous = readJson(snapshotPath);
+  const addressesChanged = !sameContracts(previous.contracts, deployment.contracts);
+  const abiChanged = previous.provenance?.abiHash !== deployment.provenance.abiHash;
+
+  if (addressesChanged || abiChanged) {
+    fail(
+      `refusing to overwrite the ${slug} web snapshot ` +
+        `(addressesChanged=${addressesChanged}, abiChanged=${abiChanged}).\n` +
+        `  This snapshot is the audit record of a real deployment.\n` +
+        `  Re-deploy with CONFIRM=1, or pass FORCE=1 if you are intentionally refreshing it.`,
+    );
   }
-  const artifact = JSON.parse(readFileSync(artifactPath, "utf8"));
-  writeFileSync(
-    path.join(abiDir, `${name}.json`),
-    `${JSON.stringify(artifact.abi, null, 2)}\n`,
-  );
-  copied.push(name);
 }
 
-writeFileSync(
-  path.join(deploymentsDir, `${chainId}.json`),
-  `${JSON.stringify(deployment, null, 2)}\n`,
-);
+if (isPublicNetwork && !force && currentAbiHash !== deployment.provenance.abiHash) {
+  fail(
+    `contracts/out no longer matches the ABI hash in ${slug}/deployment.json.\n` +
+      `  deployed: ${deployment.provenance.abiHash}\n` +
+      `  current:  ${currentAbiHash}\n` +
+      `  Re-deploy, or pass FORCE=1 to snapshot the current build.`,
+  );
+}
 
-console.log(`synced ${copied.length} ABIs and deployments/${chainId}.json into web/src/lib`);
-for (const name of copied) console.log(`  ${name}`);
+for (const name of CONTRACTS) {
+  writeJsonAtomic(path.join(webAbiDir(slug), `${name}.json`), abiMap[name]);
+}
+
+writeJsonAtomic(snapshotPath, deployment);
+
+console.log(`synced ${CONTRACTS.length} ABIs and ${slug}/deployment.json into web/src/lib`);
+console.log(`  abi        ${currentAbiHash}`);
+for (const name of CONTRACTS) console.log(`  ${name}`);

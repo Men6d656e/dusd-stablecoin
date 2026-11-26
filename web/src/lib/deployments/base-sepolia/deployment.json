@@ -1,6 +1,6 @@
 {
+  "network": "base-sepolia",
   "chainId": 84532,
-  "chain": "base-sepolia",
   "deployer": "0xC2e109C0694EA4D120E338E005Da3Ae1d14391D5",
   "blockNumber": 62949235,
   "deployedAt": "2026-11-24T09:17:12.075Z",
@@ -16,6 +16,7 @@
   "provenance": {
     "script": "contracts/script/DeployAll.s.sol:DeployAll",
     "broadcast": "contracts/broadcast/DeployAll.s.sol/84532/run-latest.json",
-    "commit": "1b9ff02"
+    "commit": "1b9ff02",
+    "abiHash": "sha256:58eced7c788233595d9bded8adfc83b70df6184c19ee5ab65f4f0ba2a2847888"
   }
 }

@@ -5,6 +5,12 @@ import { cookieToInitialState } from "wagmi";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { TestnetBanner } from "@/components/TestnetBanner";
+import {
+  activeChainId,
+  activeNetwork,
+  activeNetworkConfig,
+  safetyLabel,
+} from "@/lib/networks";
 import { wagmiConfig } from "@/lib/wagmi/config";
 import { Providers } from "./providers";
 import "./globals.css";
@@ -20,9 +26,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "dUSD — fiat-backed stablecoin (testnet)",
-  description:
-    "A fiat-backed stablecoin case study on Base Sepolia. Testnet only, no real money.",
+  title: `dUSD — fiat-backed stablecoin (${activeNetworkConfig.label})`,
+  description: `A fiat-backed stablecoin case study on ${activeNetworkConfig.label} (chain ${activeChainId}). ${safetyLabel(activeNetwork)} · No real money.`,
 };
 
 export default async function RootLayout({

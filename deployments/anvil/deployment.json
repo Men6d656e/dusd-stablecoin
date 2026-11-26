@@ -1,9 +1,9 @@
 {
+  "network": "anvil",
   "chainId": 31337,
-  "chain": "anvil",
   "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-  "blockNumber": 4,
-  "deployedAt": "2026-11-24T08:47:37.157Z",
+  "blockNumber": 3,
+  "deployedAt": "2026-11-26T10:36:36.170Z",
   "contracts": {
     "MockUSDC": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
     "CompliancePolicy": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
@@ -16,6 +16,7 @@
   "provenance": {
     "script": "contracts/script/DeployAll.s.sol:DeployAll",
     "broadcast": "contracts/broadcast/DeployAll.s.sol/31337/run-latest.json",
-    "commit": "1b9ff02"
+    "commit": "b141eb3",
+    "abiHash": "sha256:58eced7c788233595d9bded8adfc83b70df6184c19ee5ab65f4f0ba2a2847888"
   }
 }

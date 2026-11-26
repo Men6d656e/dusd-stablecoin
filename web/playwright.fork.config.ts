@@ -9,7 +9,8 @@ const FORK_NODE = "http://127.0.0.1:8545";
  * transaction with real receipts — without spending Base Sepolia funds or
  * burning any address's cooldown.
  *
- * The build must bake the fork RPC in:
+ * The build must bake the fork RPC and the testnet selector in:
+ *   NEXT_PUBLIC_NETWORK=base-sepolia \
  *   NEXT_PUBLIC_RPC_URL=http://127.0.0.1:8545 pnpm build
  */
 export default defineConfig({
@@ -31,7 +32,10 @@ export default defineConfig({
       url: "http://localhost:3000",
       reuseExistingServer: false,
       timeout: 120_000,
-      env: { NEXT_PUBLIC_RPC_URL: FORK_NODE },
+      env: {
+        NEXT_PUBLIC_NETWORK: "base-sepolia",
+        NEXT_PUBLIC_RPC_URL: FORK_NODE,
+      },
     },
   ],
 });

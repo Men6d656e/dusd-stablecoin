@@ -1,0 +1,16 @@
+{
+  "anvil": {
+    "chainId": 31337,
+    "label": "Local Anvil",
+    "tier": "local",
+    "defaultRpcUrl": "http://127.0.0.1:8545",
+    "explorerTxUrl": null
+  },
+  "base-sepolia": {
+    "chainId": 84532,
+    "label": "Base Sepolia",
+    "tier": "testnet",
+    "defaultRpcUrl": "https://sepolia.base.org",
+    "explorerTxUrl": "https://sepolia.basescan.org/tx/"
+  }
+}
