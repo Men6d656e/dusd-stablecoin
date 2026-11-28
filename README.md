@@ -8,7 +8,7 @@ proof-of-reserves next.
 
 **Status:** contracts complete and deployed to Base Sepolia. Seven contracts,
 149 Foundry tests (unit, fuzz and invariant), a formatting and lint gate, green
-CI, and verified source on Basescan. The web app (W1–W4.1) reads the deployment
+CI, and verified source on Basescan. The web app (W1–W5) reads the deployment
 through one network selector: `anvil` for a local clean-room chain, `base-sepolia`
 for the real testnet. Addresses are in `deployments/base-sepolia/deployment.json`
 and in the table below. Testnet only — no real money; do not send funds to any
@@ -51,7 +51,7 @@ details and deployment commands live in [contracts/README.md](contracts/README.m
 contracts/        Foundry project: src/, test/, script/, lib/
 deployments/      Per-network manifests (anvil/, base-sepolia/)
 scripts/          export, sync, verification, artifact checks
-web/              Next.js app (wallet, dashboard, faucet)
+web/              Next.js app (wallet, dashboard, faucet, mint)
 networks.json     Chain metadata: slug -> chainId, label, RPC, explorer
 Makefile          NETWORK-driven entry point for every chain operation
 RUNBOOK.md        Command matrix and artifact rules
