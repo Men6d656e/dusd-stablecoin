@@ -207,6 +207,12 @@ export function FaucetPanel() {
           state={state}
           hash={claim.data}
           error={failing ? faucetErrorMessage(failing) : undefined}
+          labels={{
+            wallet: "Confirm the claim in your wallet…",
+            pending: "Claim submitted — waiting for the block…",
+            confirmed: `Claim confirmed. ${amountLabel} mUSDC minted to your wallet.`,
+            failed: "Claim failed.",
+          }}
         />
       </div>
     </div>

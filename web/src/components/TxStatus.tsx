@@ -4,25 +4,33 @@ import { activeNetwork, explorerTxUrl } from "@/lib/networks";
 
 export type TxState = "idle" | "wallet" | "pending" | "confirmed" | "failed";
 
-const LABELS: Record<TxState, string> = {
+const DEFAULT_TX_LABELS: Record<TxState, string> = {
   idle: "",
-  wallet: "Confirm the claim in your wallet…",
-  pending: "Claim submitted — waiting for the block…",
-  confirmed: "Claim confirmed. 100.00 mUSDC minted to your wallet.",
-  failed: "Claim failed.",
+  wallet: "Confirm the transaction in your wallet…",
+  pending: "Transaction submitted — waiting for the block…",
+  confirmed: "Transaction confirmed.",
+  failed: "Transaction failed.",
 };
 
+/**
+ * One status strip for every write path. Callers pass action-specific copy so
+ * "claim", "approve" and "mint" read correctly without three near-copies of the
+ * same component.
+ */
 export function TxStatus({
   state,
   hash,
   error,
+  labels,
 }: {
   state: TxState;
   hash?: `0x${string}`;
   error?: string;
+  labels?: Partial<Record<TxState, string>>;
 }) {
   if (state === "idle") return null;
 
+  const text = { ...DEFAULT_TX_LABELS, ...labels }[state];
   const href = hash ? explorerTxUrl(activeNetwork, hash) : null;
 
   const tone =
@@ -39,7 +47,7 @@ export function TxStatus({
       data-tx-state={state}
       className={`space-y-1 rounded-md border p-3 text-sm ${tone}`}
     >
-      <p>{state === "failed" && error ? error : LABELS[state]}</p>
+      <p>{state === "failed" && error ? error : text}</p>
       {href ? (
         <a
           href={href}

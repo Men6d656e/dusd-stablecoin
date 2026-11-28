@@ -25,6 +25,12 @@ export function SiteHeader() {
           >
             Faucet
           </Link>
+          <Link
+            href="/mint"
+            className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+          >
+            Mint
+          </Link>
           <span className="text-sm text-neutral-500">
             {activeNetworkConfig.label} · {tierLabel(activeNetwork)}
           </span>

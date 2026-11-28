@@ -40,6 +40,8 @@ everything prefixed `NEXT_PUBLIC_` ships to the browser.
 ```text
 src/lib/networks.generated.ts   generated from ../networks.json — do not edit
 src/lib/networks.ts             the only place the app reads the env
+src/lib/mint.ts                 mint parsing, approval and error mapping
+src/components/MintPanel.tsx    approve → mint flow (W5)
 src/lib/deployments/            per-network manifests + schema + getDeployment()
 src/lib/abi/<network>/          ABI snapshots the app builds from
 src/lib/wagmi/config.ts         both chains, per-network storage key
